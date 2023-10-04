@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Fill Application",
+  "version": "1.0.0",
+  "description": "'Fill Application' is an application that automates the process of filling out job applications. With this application, users can easily fill out job applications by inputting their personal information, work experience, education, and other relevant details. The application can also save user data for future use, making it easier to apply to multiple jobs. 'Fill Application' saves users time and effort by streamlining the job application process, allowing them to focus on finding the right job for them.",
+  "icons": {
+    "16": "./assets/images/icon16.png",
+    "48": "./assets/images/icon48.png",
+    "128": "./assets/images/icon128.png"
+  },
+  "permissions": ["scripting","activeTab", "tabs"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts":[{
+    "matches": ["<all_urls>"],
+    "js": ["contentScript.js"]
+  }],
+  "action":{
+    "default_popup": "popup.html"
+  }
+  
+}
