@@ -1,7 +1,5 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -9,26 +7,48 @@ import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from '../utils/Theme.js';
+import { loginUser } from '../api/auth';
 
 
 export default function SignIn() {
+
+   //handle login
    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       const data = new FormData(event.currentTarget);
-      console.log({
-         email: data.get('email'),
-         password: data.get('password'),
+
+      //login the user
+      loginUser(data).then((res) => {
+         if (res.status === 'success') {
+            alert('Logged in successfully!');
+         } else {
+            alert(res.message)
+         }
       });
+
    };
 
    return (
       <ThemeProvider theme={theme}>
          <Grid container component="main">
-            <CssBaseline />
+            <Box gap='0.5rem' mb='2.5rem' sx={{
+               display: 'flex',
+               flexDirection: 'column',
+               alignItems: 'center',
+               width: '100%',
+            }}>
+               <Typography component="h1" variant="h5" fontWeight='900' >
+                  Fill Job
+               </Typography>
+               <Typography component='p'>
+                  Fill up your dream job within a minute
+               </Typography>
+            </Box>
+
+            {/* <CssBaseline /> */}
             <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                <Box
                   sx={{
@@ -38,10 +58,7 @@ export default function SignIn() {
                      alignItems: 'center',
                   }}
                >
-                  <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                     <LockOutlinedIcon />
-                  </Avatar>
-                  <Typography component="h1" variant="h5">
+                  <Typography component="h2" variant="h5">
                      Sign in
                   </Typography>
                   <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
