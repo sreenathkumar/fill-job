@@ -1,6 +1,7 @@
 const path = require('path');
 const copyWebpackPlugin = require('copy-webpack-plugin');
 const HTMLPlugin = require('html-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 module.exports =
 {
@@ -12,7 +13,7 @@ module.exports =
    },
    module: {
       rules: [
-         { test: /\.tsx$/, use: 'ts-loader', exclude: /node_modules/ },
+         { test: /\.(ts|tsx)$/, use: 'ts-loader', exclude: /node_modules/ },
          {
             test: /\.css$/i,
             use: ['style-loader', 'css-loader'],
@@ -31,17 +32,18 @@ module.exports =
       ...getHtmlPlugins([
          'popup',
          'options'
-      ])
+      ]),
+      new Dotenv(),
    ],
    output: {
       path: path.join(__dirname, "dist/js"),
       filename: '[name].js'
    },
-   optimization: {
-      splitChunks: {
-         chunks: 'all'
-      }
-   }
+   // optimization: {
+   //    splitChunks: {
+   //       chunks: 'all'
+   //    }
+   // }
 }
 function getHtmlPlugins(chunks) {
    return chunks.map(
