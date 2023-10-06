@@ -13,10 +13,14 @@
     "activeTab",
     "tabs"
   ],
+  "options_ui": {
+    "page": "js/options.html",
+    "open_in_tab": true
+  },
   "host_permissions": [
     "<all_urls>"
   ],
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "js/popup.html"
   }
 }
