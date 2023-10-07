@@ -7,7 +7,7 @@ import Home from './components/Home';
 import { signal } from '@preact/signals-react';
 
 
-export const appView = signal('signup'); // Default screen of popup
+export const appView = signal('signin'); // Default screen of popup
 
 //redirect to any view
 export const redirectTo = (to: string) => {
@@ -15,21 +15,23 @@ export const redirectTo = (to: string) => {
 }
 
 export default function App() {
-   const [renderContent, setRenderContent] = useState<React.JSX.Element>(<SignUp />)
-
+   const [renderContent, setRenderContent] = useState<React.JSX.Element>(null)
    const user = app.currentUser;//chekcing for user
+   if (user) {
+      appView.value = 'home'
+   }
 
    useEffect(() => {
       if (appView.value === 'home') {
          setRenderContent(<Home />)
-      } else if (appView.value === 'signin') {
-         setRenderContent(<SignIn />)
-      } else {
+      } else if (appView.value === 'signup') {
          setRenderContent(<SignUp />)
+      } else {
+         setRenderContent(<SignIn />)
       }
    }, [appView.value])
+   console.log(user);
 
-   console.log(appView.value)
    return (
       <>
          {renderContent}
