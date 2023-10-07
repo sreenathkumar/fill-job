@@ -10,7 +10,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from '../utils/Theme.js';
-import { loginUser } from '../api/auth';
+import { loginUser, logoutUser } from '../api/auth';
 
 
 export default function SignIn() {
@@ -19,17 +19,24 @@ export default function SignIn() {
    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       const data = new FormData(event.currentTarget);
+      const email: string = data.get('email').toString();
+      const password: string = data.get('password').toString();
 
       //login the user
-      loginUser(data).then((res) => {
+      loginUser(email, password).then((res) => {
          if (res.status === 'success') {
-            alert('Logged in successfully!');
+            alert(res.message)
          } else {
             alert(res.message)
          }
       });
-
    };
+
+   const handleLogout = () => {
+      logoutUser().then((res) => {
+         console.log(res);
+      })
+   }
 
    return (
       <ThemeProvider theme={theme}>
@@ -101,7 +108,7 @@ export default function SignIn() {
                            </Link>
                         </Grid>
                         <Grid item>
-                           <Link href="/signup" variant="body2">
+                           <Link href='./options.html' variant="body2">
                               {"Don't have an account? Sign Up"}
                            </Link>
                         </Grid>
