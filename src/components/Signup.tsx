@@ -19,6 +19,16 @@ export default function SignUp() {
       const data = new FormData(event.currentTarget);
       const email: string = data.get('email').toString();
       const password: string = data.get('password').toString();
+      const firstName: string = data.get('firstName').toString();
+      const lastName: string = data.get('lastName').toString();
+      const receiveNews = data.get('receiveNews')?.toString();
+      const fullName: string = firstName + ' ' + lastName;
+
+      const customData = {
+         fullName,
+         email,
+         receiveNews,
+      }
 
       //registering new user
       registerUser(email, password).then((res) => {
@@ -59,29 +69,8 @@ export default function SignUp() {
                   <Typography component="h1" variant="h5">
                      Sign up
                   </Typography>
-                  <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+                  <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
                      <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6}>
-                           <TextField
-                              autoComplete="given-name"
-                              name="firstName"
-                              required
-                              fullWidth
-                              id="firstName"
-                              label="First Name"
-                              autoFocus
-                           />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                           <TextField
-                              required
-                              fullWidth
-                              id="lastName"
-                              label="Last Name"
-                              name="lastName"
-                              autoComplete="family-name"
-                           />
-                        </Grid>
                         <Grid item xs={12}>
                            <TextField
                               required
@@ -101,12 +90,6 @@ export default function SignUp() {
                               type="password"
                               id="password"
                               autoComplete="new-password"
-                           />
-                        </Grid>
-                        <Grid item xs={12}>
-                           <FormControlLabel
-                              control={<Checkbox value="allowExtraEmails" color="primary" />}
-                              label="I want to receive inspiration, marketing promotions and updates via email."
                            />
                         </Grid>
                      </Grid>

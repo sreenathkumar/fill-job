@@ -1,12 +1,27 @@
-import axios from "axios";
 import * as Realm from 'realm-web'
 
 //initializing the MongoDB App
 export const app = new Realm.App({ id: process.env.REACT_APP_ID })
 
-const authCheck = () => {
-
+//register new user
+export const registerUser = async (email:string, password:string)=> {
+  try {
+  // Authenticate the user
+  await app.emailPasswordAuth.registerUser({email, password});
+  } catch (error) {
+    return {
+      status: 'error',
+      message: error.error
+    }
+  }
+  
+  return {
+    status: 'success',
+    message: 'successfully registered'
+  };
 }
+
+//login user
 export const loginUser = async (email:string, password:string)=> {
   // Create an email/password credential
   const credentials = Realm.Credentials.emailPassword(email, password);
@@ -17,7 +32,7 @@ export const loginUser = async (email:string, password:string)=> {
   } catch (error) {
     return {
       status: 'error',
-      message: error.message
+      message: error.error
     }
   }
   return {
@@ -25,25 +40,8 @@ export const loginUser = async (email:string, password:string)=> {
     message: 'successfully logged in'
   };
 }
-//register new user
-export const registerUser = async (email:string, password:string)=> {
-  try {
-  // Authenticate the user
-  const user = await app.emailPasswordAuth.registerUser({email, password});
-  console.log(app.currentUser);
-  } catch (error) {
-    return {
-      status: 'error',
-      message: error.message
-    }
-  }
-  
-  return {
-    status: 'success',
-    message: 'successfully registered'
-  };
-}
 
+//logout user
 export const logoutUser = async() => {
   try {
     await app.currentUser.logOut();
