@@ -1,8 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import './assets/css/popup.css';
-import SignIn from '../../components/SignIn';
-import PopupContents from './PopupContents';
+import App from './App';
 
 
 const container: HTMLElement = document.createElement('div');
@@ -12,6 +11,6 @@ const root = createRoot(container);
 
 root.render(
    <>
-      <PopupContents />
+      <App />
    </>
 );

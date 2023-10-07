@@ -13,15 +13,24 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from '../utils/Theme.js'
-
+import { registerUser } from '../api/auth';
+import { appView, redirectTo } from '../features/popup/App';
 
 export default function SignUp() {
    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       const data = new FormData(event.currentTarget);
-      console.log({
-         email: data.get('email'),
-         password: data.get('password'),
+      const email: string = data.get('email').toString();
+      const password: string = data.get('password').toString();
+
+      //registering new user
+      registerUser(email, password).then((res) => {
+         if (res.status === 'success') {
+            alert(res.message);
+            appView.value = 'signin' //showing login screen after registering.
+         } else {
+            alert(res.message)
+         }
       });
    };
 
@@ -103,7 +112,7 @@ export default function SignUp() {
                   </Button>
                   <Grid container justifyContent="flex-end">
                      <Grid item>
-                        <Link href="/singin" variant="body2">
+                        <Link onClick={() => redirectTo('signin')} variant="body2">
                            Already have an account? Sign in
                         </Link>
                      </Grid>

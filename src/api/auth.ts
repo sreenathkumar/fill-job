@@ -1,41 +1,60 @@
 import axios from "axios";
+import * as Realm from 'realm-web'
+
+//initializing the MongoDB App
+export const app = new Realm.App({ id: process.env.REACT_APP_ID })
 
 const authCheck = () => {
 
 }
-export const loginUser =  async(userData:object)=>  {
+export const loginUser = async (email:string, password:string)=> {
+  // Create an email/password credential
+  const credentials = Realm.Credentials.emailPassword(email, password);
   try {
-     const response = await axios.post(process.env.REACT_AUTH_API + "/login", userData);
-    const { data } = response;
-
-    //set tokens to local storage
-    if (data) {
-      localStorage.setItem('token', JSON.stringify({
-        access_token: {
-          data: data.access_token,
-          expires: new Date().getTime() +  30 * 60 * 1000
-        },
-        refresh_token: {
-          data: data.refresh_token,
-          expires: new Date().getTime() +  30*24*60* 60 * 1000
-        },   
-      }));
-
-      return {
-        status: 'success',
-      }
-    } else {
-      return {
-        status: 'error',
-        message: 'Something went wrong'
-      }
-    }
-
+    // Authenticate the user
+  const user = await app.logIn(credentials);
+  console.log(app.currentUser);
   } catch (error) {
-    console.log(error.response); 
     return {
       status: 'error',
-      message: error.response.data.error
+      message: error.message
     }
+  }
+  return {
+    status: 'success',
+    message: 'successfully logged in'
+  };
+}
+//register new user
+export const registerUser = async (email:string, password:string)=> {
+  try {
+  // Authenticate the user
+  const user = await app.emailPasswordAuth.registerUser({email, password});
+  console.log(app.currentUser);
+  } catch (error) {
+    return {
+      status: 'error',
+      message: error.message
+    }
+  }
+  
+  return {
+    status: 'success',
+    message: 'successfully registered'
+  };
+}
+
+export const logoutUser = async() => {
+  try {
+    await app.currentUser.logOut();
+  } catch (error) {
+    return {
+      status: 'error',
+      message: error.message
+    }
+  }
+  return {
+    status: 'success',
+    message: 'successfully logged out'
   }
 }

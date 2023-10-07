@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from '../utils/Theme.js';
 import { loginUser, logoutUser } from '../api/auth';
+import { appView, redirectTo } from '../features/popup/App';
 
 
 export default function SignIn() {
@@ -26,6 +27,7 @@ export default function SignIn() {
       loginUser(email, password).then((res) => {
          if (res.status === 'success') {
             alert(res.message)
+            appView.value = 'home' //showing home screen of the app.
          } else {
             alert(res.message)
          }
@@ -108,7 +110,7 @@ export default function SignIn() {
                            </Link>
                         </Grid>
                         <Grid item>
-                           <Link href='./options.html' variant="body2">
+                           <Link onClick={() => redirectTo('signup')} variant="body2">
                               {"Don't have an account? Sign Up"}
                            </Link>
                         </Grid>

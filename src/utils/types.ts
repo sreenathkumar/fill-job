@@ -1,6 +1,6 @@
 interface tokenDataTypes{
-   data: String
-   expires: Number
+   data: string
+   expires: number
 }
 
 interface tokenTypes {
