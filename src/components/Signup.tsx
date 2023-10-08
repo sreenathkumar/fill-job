@@ -11,16 +11,16 @@ import { ThemeProvider } from '@mui/material/styles';
 import * as React from 'react';
 import { registerUser } from '../api/auth';
 import { appView, redirectTo } from '../features/popup/App';
-import { theme } from '../utils/Theme.js';
+import { theme } from '../utils/theme';
 
 export default function SignUp() {
    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       const data = new FormData(event.currentTarget);
-      const email: string = data.get('email').toString();
-      const password: string = data.get('password').toString();
-      const firstName: string = data.get('firstName').toString();
-      const lastName: string = data.get('lastName').toString();
+      const email: string = data.get('email')!.toString();
+      const password: string = data.get('password')!.toString();
+      const firstName: string = data.get('firstName')!.toString();
+      const lastName: string = data.get('lastName')!.toString();
       const receiveNews = data.get('receiveNews')?.toString();
       const fullName: string = firstName + ' ' + lastName;
 
