@@ -15,7 +15,7 @@ export const redirectTo = (to: string) => {
 }
 
 export default function App() {
-   const [renderContent, setRenderContent] = useState<React.JSX.Element>(null)
+   const [renderContent, setRenderContent] = useState<React.JSX.Element>(<SignIn />)
    const user = app.currentUser;//chekcing for user
    if (user) {
       appView.value = 'home'
