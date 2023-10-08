@@ -1,17 +1,15 @@
-import * as React from 'react';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { ThemeProvider } from '@mui/material/styles';
-import { theme } from '../utils/Theme.js';
+import * as React from 'react';
 import { loginUser, logoutUser } from '../api/auth';
 import { appView, redirectTo } from '../features/popup/App';
+import { theme } from '../utils/theme';
 
 
 export default function SignIn() {
@@ -20,8 +18,8 @@ export default function SignIn() {
    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       const data = new FormData(event.currentTarget);
-      const email: string = data.get('email').toString();
-      const password: string = data.get('password').toString();
+      const email: string = data.get('email')!.toString();
+      const password: string = data.get('password')!.toString();
 
       //login the user
       loginUser(email, password).then((res) => {
@@ -56,8 +54,6 @@ export default function SignIn() {
                   Fill up your dream job within a minute
                </Typography>
             </Box>
-
-            {/* <CssBaseline /> */}
             <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                <Box
                   sx={{
@@ -70,7 +66,7 @@ export default function SignIn() {
                   <Typography component="h2" variant="h5">
                      Sign in
                   </Typography>
-                  <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                  <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
                      <TextField
                         margin="normal"
                         required
