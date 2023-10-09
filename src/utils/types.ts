@@ -1,9 +1,14 @@
-interface tokenDataTypes{
+interface tokenDataType{
    data: string
    expires: number
 }
 
-interface tokenTypes {
-   access_token: tokenDataTypes,
-   refresh_token: tokenDataTypes,
+interface tokenType {
+   access_token: tokenDataType,
+   refresh_token: tokenDataType,
+}
+
+interface btnType {
+   title: string,
+   url: string,
 }
