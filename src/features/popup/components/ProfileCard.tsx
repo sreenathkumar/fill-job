@@ -25,7 +25,7 @@ export default function ProfileCard({ profile, name, actions, bio, avatar }: { p
                   </Typography>
                   <Box display={'flex'} gap={'1rem'} mt={'1rem'}>
                      {
-                        actions.map((action, index) => <Button key={index} variant="contained" href="#contained-buttons" sx={{ borderRadius: '50px', fontSize: '12px', padding: '5px 16px', lineHeight: '1.5' }}>
+                        actions.map((action, index) => <Button key={index} onClick={() => action.task()} variant="contained" href="#contained-buttons" sx={{ borderRadius: '50px', fontSize: '12px', padding: '5px 16px', lineHeight: '1.5' }}>
                            {action.title}
                         </Button>)
                      }
