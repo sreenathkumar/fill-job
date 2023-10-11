@@ -20,7 +20,9 @@ export const loginUser = async (email:string, password:string)=> {
   const credentials = Realm.Credentials.emailPassword(email, password);
   try {
     // Authenticate the user
-  const user = await app.logIn(credentials);
+    const user = await app.logIn(credentials);
+    //set the user in local storage
+    localStorage.setItem('token', JSON.stringify({token: user.refreshToken, expiresAt: Date.now() + 1000*60*30}));
   } catch (error) {
     return {status: 'error',message: error.error}
   }
@@ -43,5 +45,17 @@ export const logoutUser = async() => {
   return {
     status: 'success',
     message: 'successfully logged out'
+  }
+}
+
+export async function getValidAccessToken(user: Realm.User) {
+  // An already logged in user's access token might be stale. To
+  // guarantee that the token is valid, refresh it if necessary.
+  try {
+    await user.refreshAccessToken();
+
+    return user.accessToken;
+  } catch (error) {
+    return error
   }
 }
