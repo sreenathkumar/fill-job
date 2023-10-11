@@ -10,6 +10,7 @@
     "watch": "webpack -w --config webpack.config.js"
   },
   "devDependencies": {
+    "@types/chrome": "^0.0.188",
     "@types/react": "^18.2.25",
     "@types/react-dom": "^18.2.10",
     "css-loader": "^6.8.1",

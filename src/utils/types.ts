@@ -10,5 +10,5 @@ interface tokenType {
 
 interface btnType {
    title: string,
-   url: string,
+   task: Function,
 }
