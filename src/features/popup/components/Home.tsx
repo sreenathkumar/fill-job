@@ -7,6 +7,8 @@ import { appView } from '../App'
 
 
 export default function Home() {
+   const { generalData, jobData } = JSON.parse(localStorage.getItem('profileData') || '') || {}; // get profile data from local storage
+
    const handleEditGeneralProfile = () => {
       appView.value = 'editGeneralProfile'
    }
@@ -22,8 +24,8 @@ export default function Home() {
    return (
       <ThemeProvider theme={theme}>
          <Grid container component="main" gap={'1rem'}>
-            <ProfileCard profile={'General Profile'} name='' bio={'Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, hic.'} actions={[{ title: 'Edit info', task: handleEditGeneralProfile },]} />
-            <ProfileCard profile={'Job Profile'} name='' bio='Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, hic.' actions={[{ title: 'Update', task: handleUpdateJobProfile }, { title: 'Fill up', task: handleFill }]} />
+            <ProfileCard profile={'General Profile'} data={generalData} actions={[{ title: 'Edit info', task: handleEditGeneralProfile },]} />
+            <ProfileCard profile={'Job Profile'} data={jobData} actions={[{ title: 'Update', task: handleUpdateJobProfile }, { title: 'Fill up', task: handleFill }]} />
          </Grid>
       </ThemeProvider>
    )
