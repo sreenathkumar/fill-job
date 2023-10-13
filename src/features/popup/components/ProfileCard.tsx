@@ -29,10 +29,6 @@ export default function ProfileCard({ profile, name, actions, bio, avatar }: { p
                            {action.title}
                         </Button>)
                      }
-
-                     {/* <Button variant="contained" href="#contained-buttons" sx={{ borderRadius: '50px', fontSize: '12px', padding: '5px 16px', lineHeight: '1.5' }}>
-                        Update data
-                     </Button> */}
                   </Box>
                </Box>
             </Box>
