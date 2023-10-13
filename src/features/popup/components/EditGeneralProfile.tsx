@@ -1,10 +1,52 @@
 import { Box, Chip, Grid, Paper, TextField, Typography, ThemeProvider, Avatar, } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import Button from '@mui/joy/Button';
 import SvgIcon from '@mui/joy/SvgIcon';
 import { styled } from '@mui/joy';
+import { app } from '../../../api/auth';
+import { convertImage } from '../../../utils/utilitiesFn';
 
-function EditGeneralProfile() {
+
+function EditGeneralProfile({ profileData }: { profileData?: generalProfileDataType }) {
+   const [firstName, setFirstName] = useState<string>(profileData?.firstName || '');
+   const [lastName, setLastName] = useState<string>(profileData?.lastName || '');
+   const [bio, setBio] = useState<string>(profileData?.bio || '');
+   const [previewImage, setPreviewImage] = useState<string>(profileData?.img || '');
+   const [currentImage, setCurrentImage] = useState<File>();
+
+   //handle image upload
+   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const selectedFile = e.target?.files as FileList;
+      setCurrentImage(selectedFile?.[0]);
+      setPreviewImage(URL.createObjectURL(selectedFile?.[0]));
+   }
+
+   //console.log(profileData);
+   //handle form submit
+   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      const formData = new FormData(e.currentTarget);
+      if (currentImage) {
+         const convertedImg = await convertImage(currentImage);
+         formData.append('img', convertedImg);
+      }
+      const data = Object.fromEntries(formData.entries());
+      const currentProfileData = JSON.parse(localStorage.getItem('profileData') || '{}');
+      const updatedProfileData = { ...currentProfileData, generalData: { ...currentProfileData.generalData, ...data } };
+
+      const res = await app.currentUser?.functions.callFunction('setJobProfile', data)
+      // optimistic local storage update
+      localStorage.setItem('profileData', JSON.stringify(updatedProfileData));
+
+      if (res.status !== 'success') {
+         localStorage.setItem('profileData', JSON.stringify(currentProfileData)); // revert local storage update if failed
+         alert('Something went wrong, please try again')
+      } else {
+         alert('Profile updated successfully');
+      }
+
+   }
+
    const VisuallyHiddenInput = styled('input')`
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
@@ -15,9 +57,9 @@ function EditGeneralProfile() {
   left: 0;
   white-space: nowrap;
   width: 1px;
+  name: 'generalProfileImage';
 `;
    return (
-
       <Grid item xs={12} sm={8} md={5} borderRadius={'10px'} elevation={3} component={Paper} square>
          <Box
             sx={{
@@ -30,7 +72,7 @@ function EditGeneralProfile() {
             }}
          >
             <Chip label={'General Profile'} variant="outlined" size='small' sx={{ fontSize: '.5rem', height: '20px' }} />
-            <Box component='form' sx={{ display: 'flex', flexDirection: 'column', gap: '1rem', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Box component='form' onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: '1rem', justifyContent: 'space-between', alignItems: 'center' }}>
 
                <Box sx={{ display: 'flex', gap: '1rem' }}>
                   <TextField
@@ -40,7 +82,8 @@ function EditGeneralProfile() {
                      id="firstName"
                      label="First Name"
                      autoFocus
-                     defaultValue="Default Value"
+                     value={firstName}
+                     onChange={(e) => { setFirstName(e.target.value) }}
                   />
 
                   <TextField
@@ -49,7 +92,8 @@ function EditGeneralProfile() {
                      id="lastName"
                      label="Last Name"
                      name="lastName"
-                     defaultValue="Default Value"
+                     value={lastName}
+                     onChange={(e) => { setLastName(e.target.value) }}
                   />
                </Box>
 
@@ -59,12 +103,13 @@ function EditGeneralProfile() {
                   name='bio'
                   multiline
                   rows={4}
-                  defaultValue="Default Value"
                   fullWidth
+                  value={bio}
+                  onChange={(e) => { setBio(e.target.value) }}
                />
                <Box sx={{ display: 'flex', gap: '1rem' }} width={'100%'}>
                   <Avatar variant="square" sx={{ width: '50px', height: '50px' }}>
-                     <img src="https://mui.com/static/images/avatar/1.jpg" alt="" width={'100%'} height={'100%'} />
+                     <img src={previewImage} alt="" width={'100%'} height={'100%'} />
                   </Avatar>
                   <Button
                      component="label"
@@ -90,12 +135,12 @@ function EditGeneralProfile() {
                      }
                   >
                      Upload profile picture
-                     <VisuallyHiddenInput type="file" />
+                     <VisuallyHiddenInput onChange={handleFileUpload} type="file" />
                   </Button>
                </Box>
 
                <Box display={'flex'} gap={'1rem'} mt={'1rem'}>
-                  <Button type='submi' href="#contained-buttons">
+                  <Button type='submit'>
                      Update data
                   </Button>
                </Box>
