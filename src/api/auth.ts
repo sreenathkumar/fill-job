@@ -22,7 +22,7 @@ export const loginUser = async (email:string, password:string)=> {
     // Authenticate the user
     const user = await app.logIn(credentials);
     //set the user in local storage
-    localStorage.setItem('token', JSON.stringify({token: user.refreshToken, expiresAt: Date.now() + 1000*60*30}));
+    localStorage.setItem('token', JSON.stringify({token: user.refreshToken, expiresAt: Date.now() + 1000*60*60*24*30}));
   } catch (error) {
     return {status: 'error',message: error.error}
   }
