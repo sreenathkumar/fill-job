@@ -45,7 +45,7 @@ export default function App() {
          if (appView.value === 'editGeneralProfile') {
             setRenderContent(<EditGeneralProfile profileData={generalData} />)
          } else {
-            setRenderContent(<EditGeneralProfile profileData={generalData} />)
+            setRenderContent(<Home />)
          }
       } else {
          if (appView.value === 'signup') {

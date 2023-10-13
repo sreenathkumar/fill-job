@@ -21,6 +21,6 @@ interface generalProfileDataType{
 }
 
 interface profileDataType { 
-   general_profile: generalProfileDataType,
-   
+   general_profile?: generalProfileDataType,
+   job_profile?: 'jobProfileDataType',
 }
