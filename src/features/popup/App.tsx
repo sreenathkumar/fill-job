@@ -9,7 +9,7 @@ import EditGeneralProfile from './components/EditGeneralProfile';
 
 
 export const appView = signal('signin'); // Default screen of popup
-export const isLoggedIn = signal(false); // Default screen of popup
+export const isLoggedIn = signal(false); // login status
 
 //redirect to any view
 export const redirectTo = (to: string) => {
@@ -28,14 +28,24 @@ export default function App() {
          }
       }
    }
+   if (!localStorage.profileData)
+      user?.functions.callFunction('getGeneralData').then((res) => {
+         localStorage.setItem('profileData', JSON.stringify(res.data));
+      })
+   const profileData = localStorage.getItem('profileData'); // get profile data from local storage
 
+   let generalData: generalProfileDataType
+   if (profileData !== null) {
+      generalData = JSON.parse(profileData).generalData; // parse profile data to JSON object
+      // convert image to base64
+   }
    //change view on appView change
    useEffect(() => {
       if (isLoggedIn.value) {
          if (appView.value === 'editGeneralProfile') {
-            setRenderContent(<EditGeneralProfile />)
+            setRenderContent(<EditGeneralProfile profileData={generalData} />)
          } else {
-            setRenderContent(<Home />)
+            setRenderContent(<EditGeneralProfile profileData={generalData} />)
          }
       } else {
          if (appView.value === 'signup') {
@@ -47,8 +57,6 @@ export default function App() {
 
    }, [appView.value])
    console.log(user);
-   console.log(appView.value);
-
 
    return (
       <>
