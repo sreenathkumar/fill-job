@@ -1,7 +1,8 @@
 import { Avatar, Box, Button, Chip, Grid, Paper, Typography } from '@mui/material'
 import React from 'react'
 import userAvatar from '../../../static/images/icon128.png'
-export default function ProfileCard({ profile, name, actions, bio, avatar }: { profile: string, name: string, actions: btnType[], bio?: string, avatar?: string, }) {
+export default function ProfileCard({ profile, actions, data }: { profile: string, actions: btnType[], data: generalProfileDataType }) {
+   const { firstName, lastName, img, bio } = data || {};
    return (
       <Grid item xs={12} sm={8} md={5} borderRadius={'10px'} elevation={3} component={Paper} square>
          <Box
@@ -15,13 +16,13 @@ export default function ProfileCard({ profile, name, actions, bio, avatar }: { p
          >
             <Chip label={profile} variant="outlined" size='small' sx={{ fontSize: '.5rem', height: '20px' }} />
             <Box sx={{ display: 'flex', gap: '1rem', justifyContent: 'space-between', alignItems: 'center' }}>
-               <Avatar src={userAvatar} sx={{ m: 1, bgcolor: 'secondary.main', width: '50px', height: '50px' }} />
+               <Avatar src={img || userAvatar} sx={{ m: 1, bgcolor: 'secondary.main', width: '50px', height: '50px' }} />
                <Box>
                   <Typography component="h5" sx={{ fontSize: '1rem', fontWeight: '600' }}>
-                     {name}
+                     {(firstName && lastName) ? firstName + " " + lastName : 'user' + ' ' + 'name'}
                   </Typography>
                   <Typography component="p" fontSize={'12px'}>
-                     {bio}
+                     {bio || 'bio'}
                   </Typography>
                   <Box display={'flex'} gap={'1rem'} mt={'1rem'}>
                      {
