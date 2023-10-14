@@ -29,15 +29,14 @@ export default function App() {
       }
    }
    if (!localStorage.profileData)
-      user?.functions.callFunction('getGeneralData').then((res) => {
+      user?.functions.callFunction('getProfileData').then((res) => {
          localStorage.setItem('profileData', JSON.stringify(res.data));
       })
-   const profileData = localStorage.getItem('profileData'); // get profile data from local storage
+   const localProfileData = localStorage.getItem('profileData'); // get localstorage profile data from local storage
 
-   let generalData: generalProfileDataType
-   if (profileData !== null) {
-      generalData = JSON.parse(profileData).generalData; // parse profile data to JSON object
-      // convert image to base64
+   let generalData: generalProfileDataType // declare general data
+   if (localProfileData !== null) {
+      generalData = JSON.parse(localProfileData).generalData; // parse profile data to JSON object
    }
    //change view on appView change
    useEffect(() => {

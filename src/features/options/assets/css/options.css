@@ -1,0 +1,9 @@
+#options-container {
+   height: 100%;
+   padding: 1.5rem;
+}
+.subsection-divider {
+   width: 2px;
+   color: gray;
+   background-color: gray;
+}

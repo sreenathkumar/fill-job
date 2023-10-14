@@ -6,6 +6,7 @@ import { styled } from '@mui/joy';
 import { app } from '../../../api/auth';
 import { convertImage } from '../../../utils/utilitiesFn';
 import EditProfile from './EditProfile';
+import { appView } from '../App';
 
 
 function EditGeneralProfile({ profileData }: { profileData?: generalProfileDataType }) {
@@ -34,8 +35,8 @@ function EditGeneralProfile({ profileData }: { profileData?: generalProfileDataT
       const data = Object.fromEntries(formData.entries());
       const currentProfileData = JSON.parse(localStorage.getItem('profileData') || '{}');
       const updatedProfileData = { ...currentProfileData, generalData: { ...currentProfileData.generalData, ...data } };
-
-      const res = await app.currentUser?.functions.callFunction('setJobProfile', data)
+      console.log('updat data')
+      const res = await app.currentUser?.functions.callFunction('setProfile', data)
       // optimistic local storage update
       localStorage.setItem('profileData', JSON.stringify(updatedProfileData));
 
@@ -45,7 +46,6 @@ function EditGeneralProfile({ profileData }: { profileData?: generalProfileDataT
       } else {
          alert('Profile updated successfully');
       }
-
    }
 
    const VisuallyHiddenInput = styled('input')`
@@ -126,6 +126,14 @@ function EditGeneralProfile({ profileData }: { profileData?: generalProfileDataT
                >
                   Upload profile picture
                   <VisuallyHiddenInput onChange={handleFileUpload} type="file" />
+               </Button>
+            </Box>
+            <Box display={'flex'} gap={'1rem'} mt={'1.5rem'} alignItems={'center'} justifyContent={'space-between'} width={'100%'}>
+               <Button onClick={() => appView.value = 'home'}  >
+                  Go back
+               </Button>
+               <Button type='submit' >
+                  Update data
                </Button>
             </Box>
          </Box>
