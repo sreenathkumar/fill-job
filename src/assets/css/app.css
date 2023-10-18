@@ -2,6 +2,6 @@ body {
    margin: 0;
 }
 #popup-container {
-   width: 400px;
+   min-width: 400px;
    padding: 1.5rem;
 }

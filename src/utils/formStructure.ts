@@ -33,13 +33,7 @@ export const formStructure = {
       },
       {
          type: 'input_group', fields: [
-            { type: 'input', id: 'nid', label: 'National ID' },
             { type: 'input', id: 'nid_no', label: 'National ID Number' },
-         ]
-      },
-      {
-         type: 'input_group', fields: [
-            { type: 'input', id: 'breg', label: 'Birth Registration' },
             { type: 'input', id: 'breg_no', label: 'Birth Registration Number' },
          ]
       },
