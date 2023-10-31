@@ -1,6 +1,6 @@
 import { Button, SvgIcon, styled } from '@mui/joy'
 import { Avatar, Box, TextField, Grid, Paper, Chip, Divider } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { isLoggedIn } from '../popup/App';
 import { formStructure } from '../../utils/formStructure';
 import FormGroupItem from '../../components/ui/FormGroupItem';
@@ -9,7 +9,7 @@ import { app } from '../../api/auth';
 
 
 function EditJobProfile() {
-   const [profileData, setProfileData] = useState<jobProfileDataType>();
+   const [profileData, setProfileData] = useState<jobProfileDataType | undefined>();
    const user = app.currentUser;//chekcing for user
    if (user) {
       const token = localStorage.getItem('token'); // get token from local storage
@@ -20,16 +20,37 @@ function EditJobProfile() {
          }
       }
    }
-   if (isLoggedIn.value && !profileData) {
-      app.currentUser?.functions.callFunction('getJobProfileData').then((res) => {
-         if (res.jobData !== null) {
-            setProfileData({ ...res.jobData });
-         }
-      });
-   }
-   console.log(isLoggedIn.value);
+   console.log('rendering');
 
-   const handleSubmit = () => { }
+   const getData = async () => {
+      try {
+         const res = await app.currentUser?.functions.callFunction('getJobProfileData');
+         if (res.jobData) {
+            setProfileData({ ...res.jobData });
+            console.log('set done');
+
+         } else {
+            console.log("No jobData in the response");
+         }
+      } catch (error) {
+         console.error("Error fetching job profile data:", error);
+         // Handle the error as needed
+      }
+   };
+   // Use useEffect to call getData when needed
+   useEffect(() => {
+      getData();
+   }, []);
+
+   //handle update job profile
+   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      const data = new FormData(event.currentTarget);
+      user?.functions.callFunction('updateJobData', Object.fromEntries(data)).then((res) => {
+         console.log(res);
+      })
+      console.log(Object.fromEntries(data));
+   }
    const VisuallyHiddenInput = styled('input')`
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
