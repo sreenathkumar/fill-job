@@ -6,6 +6,7 @@ import { formStructure } from '../../utils/formStructure';
 import FormGroupItem from '../../components/ui/FormGroupItem';
 import FormGroup from '../../components/ui/FormGroup';
 import { app } from '../../api/auth';
+import { jobProfileFormInfo } from '../../utils/formInfo';
 
 
 function EditJobProfile() {
@@ -25,6 +26,8 @@ function EditJobProfile() {
    const getData = async () => {
       try {
          const res = await app.currentUser?.functions.callFunction('getJobProfileData');
+         console.log(res);
+
          if (res.jobData) {
             setProfileData({ ...res.jobData });
             console.log('set done');
@@ -42,14 +45,23 @@ function EditJobProfile() {
       getData();
    }, []);
 
+
    //handle update job profile
    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       const data = new FormData(event.currentTarget);
-      user?.functions.callFunction('updateJobData', Object.fromEntries(data)).then((res) => {
-         console.log(res);
-      })
-      console.log(Object.fromEntries(data));
+      let updatedData = { ...Object.fromEntries(data) };
+
+      if (profileData) {
+         updatedData = { ...profileData, ...Object.fromEntries(data) };
+      }
+      try {
+         user?.functions.callFunction('updateJobData', { ...updatedData, email: user.profile.email }).then((res) => {
+            alert('form updated successfully')
+         })
+      } catch (error) {
+         alert(error);
+      }
    }
    const VisuallyHiddenInput = styled('input')`
   clip: rect(0 0 0 0);
@@ -74,7 +86,7 @@ function EditJobProfile() {
                         {
                            item.fields?.map((field, index) => {
                               return (
-                                 <FormGroupItem field={field} key={index} value={profileData ? profileData[field.id] : ''} />
+                                 <FormGroupItem field={field} key={index} value={profileData ? profileData[field.id] : ''} fieldInfo={jobProfileFormInfo[field.id]} />
                               )
                            })
                         }
@@ -90,7 +102,7 @@ function EditJobProfile() {
                   {
                      formStructure.present_address_field.map((item, itIndex) => {
                         return (
-                           <FormGroupItem field={item} key={itIndex} value={profileData ? profileData[item.id] : ''} />
+                           <FormGroupItem field={item} key={itIndex} value={profileData ? profileData[item.id] : ''} fieldInfo={jobProfileFormInfo[item.id]} />
                         )
                      })
                   }
@@ -102,7 +114,7 @@ function EditJobProfile() {
                   {
                      formStructure.permanent_address_field.map((item, itIndex) => {
                         return (
-                           <FormGroupItem field={item} key={itIndex} value={profileData ? profileData[item.id] : ''} />
+                           <FormGroupItem field={item} key={itIndex} value={profileData ? profileData[item.id] : ''} fieldInfo={jobProfileFormInfo[item.id]} />
                         )
                      })
                   }
@@ -116,7 +128,7 @@ function EditJobProfile() {
                   {
                      formStructure.ssc_field.map((item, itIndex) => {
                         return (
-                           <FormGroupItem field={item} key={itIndex} value={profileData ? profileData[item.id] : ''} />
+                           <FormGroupItem field={item} key={itIndex} value={profileData ? profileData[item.id] : ''} fieldInfo={jobProfileFormInfo[item.id]} />
                         )
                      })
                   }
@@ -128,7 +140,7 @@ function EditJobProfile() {
                   {
                      formStructure.hsc_field.map((item, itIndex) => {
                         return (
-                           <FormGroupItem field={item} key={itIndex} value={profileData ? profileData[item.id] : ''} />
+                           <FormGroupItem field={item} key={itIndex} value={profileData ? profileData[item.id] : ''} fieldInfo={jobProfileFormInfo[item.id]} />
                         )
                      })
                   }
@@ -142,7 +154,7 @@ function EditJobProfile() {
                   {
                      formStructure.honors_field.map((item, itIndex) => {
                         return (
-                           <FormGroupItem field={item} key={itIndex} value={profileData ? profileData[item.id] : ''} />
+                           <FormGroupItem field={item} key={itIndex} value={profileData ? profileData[item.id] : ''} fieldInfo={jobProfileFormInfo[item.id]} />
                         )
                      })
                   }
@@ -154,7 +166,7 @@ function EditJobProfile() {
                   {
                      formStructure.masters_field.map((item, itIndex) => {
                         return (
-                           <FormGroupItem field={item} key={itIndex} value={profileData ? profileData[item.id] : ''} />
+                           <FormGroupItem field={item} key={itIndex} value={profileData ? profileData[item.id] : ''} fieldInfo={jobProfileFormInfo[item.id]} />
                         )
                      })
                   }
