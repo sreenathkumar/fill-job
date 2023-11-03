@@ -3,7 +3,7 @@ import React from 'react'
 
 function FormInfo({ info = 'Put your information' }: { info?: string }) {
    return (
-      <Box maxWidth={'150px'}>
+      <Box padding={'8px'} whiteSpace={'pre-line'}>
          <Typography >
             {info}
          </Typography>

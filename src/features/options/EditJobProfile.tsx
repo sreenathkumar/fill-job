@@ -1,5 +1,5 @@
 import { Button, SvgIcon, styled } from '@mui/joy'
-import { Avatar, Box, TextField, Grid, Paper, Chip, Divider } from '@mui/material'
+import { Avatar, Box, TextField, Grid, Paper, Chip, Divider, FormControlLabel, Checkbox } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { isLoggedIn } from '../popup/App';
 import { formStructure } from '../../utils/formStructure';
@@ -111,7 +111,9 @@ function EditJobProfile() {
             <Grid item xs padding={'1.5rem'} borderRadius={'10px'} elevation={3} component={Paper} square>
                <Chip label={'Permanent Address'} variant="outlined" sx={{ marginBottom: '2.5rem' }} />
                <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem', flexGrow: '1', justifyContent: 'space-between', alignItems: 'center', }}>
+                  <FormControlLabel required control={<Checkbox />} label="Required" />
                   {
+
                      formStructure.permanent_address_field.map((item, itIndex) => {
                         return (
                            <FormGroupItem field={item} key={itIndex} value={profileData ? profileData[item.id] : ''} fieldInfo={jobProfileFormInfo[item.id]} />

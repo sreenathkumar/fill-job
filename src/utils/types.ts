@@ -34,9 +34,7 @@ interface jobProfileFeildInfoType {
    dob: string,
    religion: string,
    gender: string,
-   nid: string,
    nid_no: string,
-   breg: string,
    breg_no: string,
    passport: string,
    marital_status: string,
@@ -51,7 +49,6 @@ interface jobProfileFeildInfoType {
    present_upazila: string,
    present_post: string,
    present_postcode: string,
-   same_as_present: string,
    permanent_careof: string,
    permanent_village: string,
    permanent_district: string,
@@ -85,6 +82,7 @@ interface jobProfileFeildInfoType {
    mas_year: string,
    mas_subject: string,
    mas_result_type: string,
+   mas_result: string,
    mas_duration: string
 }
 
@@ -149,10 +147,11 @@ interface jobProfileDataType {
    mas_year: string,
    mas_subject: string,
    mas_result_type: string,
+   mas_result: string,
    mas_duration: string
 }
 
 interface profileDataType {
    general_profile?: generalProfileDataType,
-   job_profile?: 'jobProfileDataType',
+   job_profile?: jobProfileDataType,
 }
