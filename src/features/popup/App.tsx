@@ -19,6 +19,8 @@ export const redirectTo = (to: string) => {
 export default function App() {
    const [renderContent, setRenderContent] = useState<React.JSX.Element>(<SignIn />)
    const user = app.currentUser;//chekcing for user
+   let generalData: generalProfileDataType // declare general data
+
    if (user) {
       const token = localStorage.getItem('token'); // get token from local storage
       if (token !== null) {
@@ -28,15 +30,16 @@ export default function App() {
          }
       }
    }
-   if (!localStorage.profileData)
+   if (!localStorage.profileData) {
       user?.functions.callFunction('getProfileData').then((res) => {
          localStorage.setItem('profileData', JSON.stringify(res.data));
       })
+   }
    const localProfileData = localStorage.getItem('profileData'); // get localstorage profile data from local storage
+   console.log(localProfileData);
 
-   let generalData: generalProfileDataType // declare general data
    if (localProfileData !== null) {
-      generalData = JSON.parse(localProfileData).generalData; // parse profile data to JSON object
+      generalData = JSON.parse(localProfileData); // parse profile data to JSON object
    }
    //change view on appView change
    useEffect(() => {
@@ -44,7 +47,7 @@ export default function App() {
          if (appView.value === 'editGeneralProfile') {
             setRenderContent(<EditGeneralProfile profileData={generalData} />)
          } else {
-            setRenderContent(<Home />)
+            setRenderContent(<Home profileData={generalData} />)
          }
       } else {
          if (appView.value === 'signup') {

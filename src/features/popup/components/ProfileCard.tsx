@@ -2,7 +2,7 @@ import { Avatar, Box, Button, Chip, Grid, Paper, Typography } from '@mui/materia
 import React from 'react'
 import userAvatar from '../../../static/images/icon128.png'
 export default function ProfileCard({ profile, actions, data }: { profile: string, actions: btnType[], data: generalProfileDataType }) {
-   const { firstName, lastName, img, bio } = data || {};
+   const { firstName, lastName, img, bio, real_name } = data || {};
    return (
       <Grid item xs={12} sm={8} md={5} borderRadius={'10px'} elevation={3} component={Paper} square>
          <Box
@@ -19,7 +19,7 @@ export default function ProfileCard({ profile, actions, data }: { profile: strin
                <Avatar src={img || userAvatar} sx={{ m: 1, bgcolor: 'secondary.main', width: '50px', height: '50px' }} />
                <Box>
                   <Typography component="h5" sx={{ fontSize: '1rem', fontWeight: '600' }}>
-                     {(firstName && lastName) ? firstName + " " + lastName : 'user' + ' ' + 'name'}
+                     {profile === 'General Profile' ? ((firstName && lastName) ? firstName + " " + lastName : 'user' + ' ' + 'name') : (real_name ? real_name : 'user' + ' ' + 'name')}
                   </Typography>
                   <Typography component="p" fontSize={'12px'}>
                      {bio || 'bio'}

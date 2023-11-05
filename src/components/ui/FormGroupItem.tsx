@@ -5,7 +5,7 @@ import Tooltip, { tooltipClasses, TooltipProps } from '@mui/material/Tooltip'
 import React, { useEffect, useState } from 'react'
 import FormInfo from './FormInfo';
 
-function FormGroupItem({ field, value, fieldInfo }: { field: formInputFieldType, value?: string, fieldInfo?: string }) {
+function FormGroupItem({ field, value, fieldInfo, disabled }: { field: formInputFieldType, value?: string, fieldInfo?: string, disabled?: boolean }) {
    const [fieldValue, setFieldValue] = useState(value)
 
    const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
@@ -26,6 +26,7 @@ function FormGroupItem({ field, value, fieldInfo }: { field: formInputFieldType,
             fullWidth
             id={field.id}
             label={field.label}
+            disabled={disabled}
             autoFocus
             value={fieldValue}
             onChange={(e) => setFieldValue(e.target.value)}
