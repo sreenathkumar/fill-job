@@ -4,9 +4,12 @@ import { Grid } from '@mui/material'
 import { theme } from '../../../utils/theme'
 import ProfileCard from './ProfileCard'
 import { appView } from '../App'
-
+import { useQuery } from '@tanstack/react-query'
+import { getJobProfile } from '../../../api/data'
+import { app } from '../../../api/auth'
 
 export default function Home({ profileData }: { profileData: generalProfileDataType }) {
+
    const handleEditGeneralProfile = () => {
       appView.value = 'editGeneralProfile'
    }
@@ -16,8 +19,24 @@ export default function Home({ profileData }: { profileData: generalProfileDataT
    }
 
    const handleFill = () => {
-      console.log('fill job profile');
+      app.currentUser?.functions.callFunction('getJobProfileData').then((res) => {
+         if (res.jobData) {
+            chrome.tabs.query({ active: true, currentWindow: true }, (tab) => {
+               chrome.tabs.sendMessage(
+                  tab[0].id!,
+                  { from: 'fill', data: res.jobData },
+                  (response) => {
+                     console.log(response);
+                  }
+               )
+            });
+         } else {
+            alert('Please update your job profile first')
+         }
+      })
    };
+
+
 
    return (
       <ThemeProvider theme={theme}>

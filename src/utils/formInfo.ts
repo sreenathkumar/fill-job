@@ -5,7 +5,7 @@ export const jobProfileFormInfo: jobProfileFeildInfoType = {
    father_bn: "বাবার নাম লিখুন \n\"বাংলায়\"",
    mother: "মায়ের নাম লিখুন \n\"ইংরেজিতে\"",
    mother_bn: "মায়ের নাম লিখুন \n\"বাংলায়\"",
-   dob: "জন্ম তারিখ ইংরেজিতে \"মাস-তারিখ-বছর\"যেমনঃ\n 01-30-1990",
+   dob: "জন্ম তারিখ ইংরেজিতে \"বছর-মাস-তারিখ\"যেমনঃ\n 1991-10-20",
    religion: "Islam\n  Hinduism\n  Buddhism\n  Christianity",
    gender: "Male\n Female\n Other",
    nid_no: "জাতীয় পরিচয়পত্র নম্বর \n\"ইংরেজিতে\"",

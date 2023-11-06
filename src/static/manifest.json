@@ -22,5 +22,15 @@
   ],
   "action": {
     "default_popup": "js/popup.html"
-  }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "js/content.js"
+      ]
+    }
+  ]
 }

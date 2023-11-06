@@ -23,7 +23,7 @@ function EditJobProfile() {
          }
       }
    }
-   console.log('rendering');
+
 
    const getData = async () => {
       try {
@@ -43,6 +43,7 @@ function EditJobProfile() {
    // Use useEffect to call getData when needed
    useEffect(() => {
       getData();
+      console.log(Object.keys(profileData || {}));
    }, []);
 
 

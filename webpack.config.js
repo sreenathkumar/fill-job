@@ -9,7 +9,8 @@ module.exports =
    devtool: 'cheap-module-source-map',
    entry: {
       popup: path.resolve('src/features/popup/Popup.tsx'),
-      options: path.resolve('src/features/options/Options.tsx')
+      options: path.resolve('src/features/options/Options.tsx'),
+      content: path.resolve('src/features/content/Content.ts'),
    },
    module: {
       rules: [
@@ -36,7 +37,7 @@ module.exports =
       }),
       ...getHtmlPlugins([
          'popup',
-         'options'
+         'options',
       ]),
       new Dotenv(),
    ],

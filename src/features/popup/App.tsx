@@ -36,7 +36,6 @@ export default function App() {
       })
    }
    const localProfileData = localStorage.getItem('profileData'); // get localstorage profile data from local storage
-   console.log(localProfileData);
 
    if (localProfileData !== null) {
       generalData = JSON.parse(localProfileData); // parse profile data to JSON object
