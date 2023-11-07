@@ -43,7 +43,6 @@ function EditJobProfile() {
    // Use useEffect to call getData when needed
    useEffect(() => {
       getData();
-      console.log(Object.keys(profileData || {}));
    }, []);
 
 
@@ -59,7 +58,9 @@ function EditJobProfile() {
       //updating job profile data
       try {
          user?.functions.callFunction('updateJobData', updatedData).then((res) => {
-            alert('form updated successfully')
+            setProfileData({ ...res.jobData });
+            console.log(res);
+
          })
       } catch (error) {
          alert(error);
@@ -113,12 +114,14 @@ function EditJobProfile() {
             <Grid item xs padding={'1.5rem'} borderRadius={'10px'} elevation={3} component={Paper} square>
                <Chip label={'Permanent Address'} variant="outlined" sx={{ marginBottom: '2.5rem' }} />
                <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem', flexGrow: '1', justifyContent: 'space-between', alignItems: 'center', }}>
-                  <FormControlLabel control={<Checkbox checked={samePermanentAddress} onChange={() => setSamePermanentAddress(!samePermanentAddress)} />} sx={{ alignSelf: 'flex-start' }} label="Same as present" />
+                  <FormControlLabel control={<Checkbox checked={samePermanentAddress} name='same_as_present' id='same_as_present' onChange={() => setSamePermanentAddress(!samePermanentAddress)} />} sx={{ alignSelf: 'flex-start' }} label="Same as present" />
 
                   {samePermanentAddress ?
-                     formStructure.present_address_field.map((item, itIndex) => {
+                     formStructure.permanent_address_field.map((item, itIndex) => {
+                        let elementOfPresent = document.getElementById(`${item.id.replace('permanent', 'present')}`) as HTMLInputElement;
+
                         return (
-                           <FormGroupItem field={item} key={itIndex} value={profileData ? profileData[item.id] : ''} fieldInfo={jobProfileFormInfo[item.id]} />
+                           <FormGroupItem field={item} key={itIndex} value={elementOfPresent?.value || ''} fieldInfo={jobProfileFormInfo[item.id]} />
                         )
                      })
                      :
@@ -174,7 +177,7 @@ function EditJobProfile() {
             <Grid item xs padding={'1.5rem'} borderRadius={'10px'} elevation={3} component={Paper} square>
                <Chip label={'Masters/Equivalent'} variant="outlined" sx={{ marginBottom: '2.5rem' }} />
                <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem', flexGrow: '1', justifyContent: 'space-between', alignItems: 'center', }}>
-                  <FormControlLabel control={<Checkbox checked={masApplicable} onChange={() => setMasApplicable(!masApplicable)} />} sx={{ alignSelf: 'flex-start' }} label="If applicable" />
+                  <FormControlLabel control={<Checkbox checked={masApplicable} id='if_applicable_mas' name='if_applicable_mas' onChange={() => setMasApplicable(!masApplicable)} />} sx={{ alignSelf: 'flex-start' }} label="If applicable" />
                   {
                      formStructure.masters_field.map((item, itIndex) => {
                         return (
