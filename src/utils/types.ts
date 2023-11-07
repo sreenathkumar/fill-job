@@ -77,7 +77,6 @@ interface jobProfileFeildInfoType {
    gra_result_type: string,
    gra_result: string,
    gra_duration: string,
-   if_applicable_mas: string,
    mas_exam: string,
    mas_institute: string,
    mas_year: string,
