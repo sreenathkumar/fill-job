@@ -67,18 +67,18 @@ export const formStructure = {
    present_address_field: [
       { type: 'input', id: 'present_careof', label: 'Care Of' },
       { type: 'input', id: 'present_village', label: 'Village/Road/House No' },
+      { type: 'input', id: 'present_district', label: 'District' },
       { type: 'input', id: 'present_upazila', label: 'Upazilla' },
       { type: 'input', id: 'present_post', label: 'Post' },
-      { type: 'input', id: 'present_district', label: 'District' },
       { type: 'input', id: 'present_postcode', label: 'Potal Code' },
 
    ],
    permanent_address_field: [
       { type: 'input', id: 'permanent_careof', label: 'Care Of' },
       { type: 'input', id: 'permanent_village', label: 'Village/Road/House No' },
+      { type: 'input', id: 'permanent_district', label: 'District' },
       { type: 'input', id: 'permanent_upazila', label: 'Upazilla' },
       { type: 'input', id: 'permanent_post', label: 'Post' },
-      { type: 'input', id: 'permanent_district', label: 'District' },
       { type: 'input', id: 'permanent_postcode', label: 'Potal Code' },
    ],
    ssc_field: [
