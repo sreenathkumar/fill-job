@@ -31,7 +31,6 @@ function EditJobProfile() {
          if (res.jobData) {
             setProfileData({ ...res.jobData });
             console.log('set done');
-
          } else {
             console.log("No jobData in the response");
          }
@@ -179,9 +178,9 @@ function EditJobProfile() {
                <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem', flexGrow: '1', justifyContent: 'space-between', alignItems: 'center', }}>
                   <FormControlLabel control={<Checkbox checked={masApplicable} id='if_applicable_mas' name='if_applicable_mas' onChange={() => setMasApplicable(!masApplicable)} />} sx={{ alignSelf: 'flex-start' }} label="If applicable" />
                   {
-                     formStructure.masters_field.map((item, itIndex) => {
+                     masApplicable && formStructure.masters_field.map((item, itIndex) => {
                         return (
-                           <FormGroupItem field={item} key={itIndex} disabled={!masApplicable} value={profileData ? profileData[item.id] : ''} fieldInfo={jobProfileFormInfo[item.id]} />
+                           <FormGroupItem field={item} key={itIndex} value={profileData ? profileData[item.id] : ''} fieldInfo={jobProfileFormInfo[item.id]} />
                         )
                      })
                   }
