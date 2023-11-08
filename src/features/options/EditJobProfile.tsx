@@ -23,8 +23,7 @@ function EditJobProfile() {
          }
       }
    }
-
-
+   // Fetch the data from the server
    const getData = async () => {
       try {
          const res = await app.currentUser?.functions.callFunction('getJobProfileData');
@@ -57,9 +56,12 @@ function EditJobProfile() {
       //updating job profile data
       try {
          user?.functions.callFunction('updateJobData', updatedData).then((res) => {
-            setProfileData({ ...res.jobData });
-            console.log(res);
-
+            if (res.type === 'success') {
+               setProfileData({ ...res.jobData });
+               alert('Data updated successfully');
+            } else {
+               alert('Something went wrong. Please reload the page and try again');
+            }
          })
       } catch (error) {
          alert(error);
