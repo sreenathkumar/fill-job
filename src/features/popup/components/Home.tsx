@@ -3,10 +3,8 @@ import { ThemeProvider } from '@emotion/react'
 import { Grid } from '@mui/material'
 import { theme } from '../../../utils/theme'
 import ProfileCard from './ProfileCard'
-import { appView } from '../App'
-import { useQuery } from '@tanstack/react-query'
-import { getJobProfile } from '../../../api/data'
-import { app } from '../../../api/auth'
+import { appView, isLoggedIn } from '../App'
+import { app, logoutUser } from '../../../api/auth'
 
 export default function Home({ profileData }: { profileData: generalProfileDataType }) {
 
@@ -36,12 +34,23 @@ export default function Home({ profileData }: { profileData: generalProfileDataT
       })
    };
 
-
+   const handleLogout = () => {
+      logoutUser().then((res) => {
+         console.log(res)
+         if (res.status === 'success') {
+            appView.value = 'signin';
+            isLoggedIn.value = false;
+            alert(res.message)
+         } else {
+            alert(res.message)
+         }
+      })
+   }
 
    return (
       <ThemeProvider theme={theme}>
          <Grid container component="main" gap={'1rem'}>
-            <ProfileCard profile={'General Profile'} data={profileData} actions={[{ title: 'Edit info', task: handleEditGeneralProfile },]} />
+            <ProfileCard profile={'General Profile'} data={profileData} actions={[{ title: 'Edit info', task: handleEditGeneralProfile }, { title: 'Log Out', task: handleLogout }]} />
             <ProfileCard profile={'Job Profile'} data={profileData} actions={[{ title: 'Update', task: handleUpdateJobProfile }, { title: 'Fill up', task: handleFill }]} />
          </Grid>
       </ThemeProvider>
