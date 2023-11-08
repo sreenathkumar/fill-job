@@ -26,6 +26,7 @@ export default function App() {
       if (token !== null) {
          const parserdToken = (JSON.parse(token)); // parse token
          if (parserdToken.expiresAt > Date.now()) { // check if token is valid
+            appView.value = 'home';
             isLoggedIn.value = true // set logged in to true
          }
       }
@@ -45,8 +46,10 @@ export default function App() {
       if (isLoggedIn.value) {
          if (appView.value === 'editGeneralProfile') {
             setRenderContent(<EditGeneralProfile profileData={generalData} />)
-         } else {
+         } else if (appView.value === 'home') {
             setRenderContent(<Home profileData={generalData} />)
+         } else {
+            setRenderContent(<><h1>404</h1><p>Something goes wrong</p></>)
          }
       } else {
          if (appView.value === 'signup') {
@@ -57,6 +60,7 @@ export default function App() {
       }
 
    }, [appView.value])
+   console.log(appView.value);
 
    return (
       <>

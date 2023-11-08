@@ -3,7 +3,7 @@ import { ThemeProvider } from '@emotion/react'
 import { Grid } from '@mui/material'
 import { theme } from '../../../utils/theme'
 import ProfileCard from './ProfileCard'
-import { appView, isLoggedIn } from '../App'
+import { appView, isLoggedIn, redirectTo } from '../App'
 import { app, logoutUser } from '../../../api/auth'
 
 export default function Home({ profileData }: { profileData: generalProfileDataType }) {
@@ -45,11 +45,11 @@ export default function Home({ profileData }: { profileData: generalProfileDataT
    const handleLogout = () => {
       logoutUser().then((res) => {
          if (res.status === 'success') {
-            appView.value = 'signin';
             isLoggedIn.value = false;
-            alert(res.message)
+            redirectTo('signin');
+            //alert(res.message)
          } else {
-            alert(res.message)
+            alert('Something went wrong, please try again')
          }
       })
    }
