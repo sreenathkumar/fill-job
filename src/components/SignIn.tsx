@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { ThemeProvider } from '@mui/material/styles';
 import * as React from 'react';
-import { loginUser, logoutUser } from '../api/auth';
+import { loginUser } from '../api/auth';
 import { appView, redirectTo } from '../features/popup/App';
 import { theme } from '../utils/theme';
 
@@ -31,12 +31,6 @@ export default function SignIn() {
          }
       });
    };
-
-   const handleLogout = () => {
-      logoutUser().then((res) => {
-         console.log(res);
-      })
-   }
 
    return (
       <ThemeProvider theme={theme}>

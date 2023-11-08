@@ -20,13 +20,21 @@ export default function Home({ profileData }: { profileData: generalProfileDataT
       app.currentUser?.functions.callFunction('getJobProfileData').then((res) => {
          if (res.jobData) {
             chrome.tabs.query({ active: true, currentWindow: true }, (tab) => {
-               chrome.tabs.sendMessage(
-                  tab[0].id!,
-                  { from: 'fill', data: res.jobData },
-                  (response) => {
-                     console.log(response);
-                  }
-               )
+               try {
+                  chrome.tabs.sendMessage(
+                     tab[0].id!,
+                     { from: 'fill', data: res.jobData },
+                     (response) => {
+                        if (response?.status === 'success') {
+                           alert('Job profile filled successfully')
+                        } else {
+                           alert('Something went wrong, please reload the page and try again')
+                        }
+                     }
+                  )
+               } catch (error) {
+                  alert('Something went wrong, please reload the page and try again')
+               }
             });
          } else {
             alert('Please update your job profile first')
@@ -36,7 +44,6 @@ export default function Home({ profileData }: { profileData: generalProfileDataT
 
    const handleLogout = () => {
       logoutUser().then((res) => {
-         console.log(res)
          if (res.status === 'success') {
             appView.value = 'signin';
             isLoggedIn.value = false;

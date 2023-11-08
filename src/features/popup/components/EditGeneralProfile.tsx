@@ -23,7 +23,7 @@ function EditGeneralProfile({ profileData }: { profileData?: generalProfileDataT
       setPreviewImage(URL.createObjectURL(selectedFile?.[0]));
    }
 
-   //console.log(profileData);
+
    //handle form submit
    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
@@ -35,7 +35,7 @@ function EditGeneralProfile({ profileData }: { profileData?: generalProfileDataT
       const data = Object.fromEntries(formData.entries());
       const currentProfileData = JSON.parse(localStorage.getItem('profileData') || '{}');
       const updatedProfileData = { ...currentProfileData, generalData: { ...currentProfileData.generalData, ...data } };
-      console.log('updat data')
+
       const res = await app.currentUser?.functions.callFunction('setProfile', data)
       // optimistic local storage update
       localStorage.setItem('profileData', JSON.stringify(updatedProfileData));

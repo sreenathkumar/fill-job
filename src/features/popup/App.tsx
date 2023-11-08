@@ -57,7 +57,6 @@ export default function App() {
       }
 
    }, [appView.value])
-   console.log(user);
 
    return (
       <>

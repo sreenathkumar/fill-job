@@ -29,7 +29,6 @@ function EditJobProfile() {
          const res = await app.currentUser?.functions.callFunction('getJobProfileData');
          if (res.jobData) {
             setProfileData({ ...res.jobData });
-            console.log('set done');
          } else {
             console.log("No jobData in the response");
          }
@@ -67,18 +66,7 @@ function EditJobProfile() {
          alert(error);
       }
    }
-   const VisuallyHiddenInput = styled('input')`
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  height: 1px;
-  overflow: hidden;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  white-space: nowrap;
-  width: 1px;
-  name: 'generalProfileImage';
-`;
+
    return (
       <Box component='form' onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }} >
          <Grid item xs={12} sm={8} md={5} padding={'1.5rem'} borderRadius={'10px'} elevation={3} component={Paper} square>

@@ -1,6 +1,8 @@
 import { Avatar, Box, Button, Chip, Grid, Paper, Typography } from '@mui/material'
 import React from 'react'
 import userAvatar from '../../../static/images/icon128.png'
+
+
 export default function ProfileCard({ profile, actions, data }: { profile: string, actions: btnType[], data: generalProfileDataType }) {
    const { firstName, lastName, img, bio, real_name } = data || {};
    return (

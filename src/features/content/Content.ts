@@ -2,7 +2,7 @@ import { setDynamicData } from "../../utils/utilitiesFn";
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
    fillUpForm(request.data);
-   sendResponse({ data: "Message received" });
+   sendResponse({ status: "success", message: "Form filled up successfully" });
 });
 
 const fillUpForm = (data: jobProfileDataType) => {

@@ -3,28 +3,27 @@ import * as Realm from 'realm-web'
 //initializing the MongoDB App
 export const app = new Realm.App({ id: process.env.REACT_APP_ID! });
 //register new user
-export const registerUser = async (email:string, password:string)=> {
+export const registerUser = async (email: string, password: string) => {
   try {
-  // Authenticate the user
-  await app.emailPasswordAuth.registerUser({email, password});
+    // Authenticate the user
+    await app.emailPasswordAuth.registerUser({ email, password });
   } catch (error) {
-    return {status: 'error',message: error.error}
+    return { status: 'error', message: error.error }
   }
-  
-  return {status: 'success',message: 'successfully registered'};
+  return { status: 'success', message: 'successfully registered' };
 }
 
 //login user
-export const loginUser = async (email:string, password:string)=> {
+export const loginUser = async (email: string, password: string) => {
   // Create an email/password credential
   const credentials = Realm.Credentials.emailPassword(email, password);
   try {
     // Authenticate the user
     const user = await app.logIn(credentials);
     //set the user in local storage
-    localStorage.setItem('token', JSON.stringify({token: user.refreshToken, expiresAt: Date.now() + 1000*60*60*24*30}));
+    localStorage.setItem('token', JSON.stringify({ token: user.refreshToken, expiresAt: Date.now() + 1000 * 60 * 60 * 24 * 30 }));
   } catch (error) {
-    return {status: 'error',message: error.error}
+    return { status: 'error', message: error.error }
   }
   return {
     status: 'success',
@@ -33,7 +32,7 @@ export const loginUser = async (email:string, password:string)=> {
 }
 
 //logout user
-export const logoutUser = async() => {
+export const logoutUser = async () => {
   try {
     await app.currentUser?.logOut();
   } catch (error) {
@@ -49,11 +48,9 @@ export const logoutUser = async() => {
 }
 
 export async function getValidAccessToken(user: Realm.User) {
-  // An already logged in user's access token might be stale. To
-  // guarantee that the token is valid, refresh it if necessary.
+  // An already logged in user's access token might be stale. To guarantee that the token is valid, refresh it if necessary.
   try {
     await user.refreshAccessToken();
-
     return user.accessToken;
   } catch (error) {
     return error
