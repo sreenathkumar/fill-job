@@ -6,7 +6,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 const fillUpForm = (data: jobProfileDataType) => {
-   const fields: string[] = [];
+
    for (const [key, value] of Object.entries(data)) {
       const ele = <HTMLInputElement>document.getElementById(key);
       if (ele) {
@@ -19,12 +19,11 @@ const fillUpForm = (data: jobProfileDataType) => {
             }
          } // checks if this values are available in the form or not
 
-
-
          //conditionally filling up the form
          if (ele.type === 'select-one') {
             ele.value = setDynamicData(key, value);
-
+            var event = new Event('change');
+            ele.dispatchEvent(event);
          } else if (ele.type === 'checkbox') {
             ele.click();
          }
