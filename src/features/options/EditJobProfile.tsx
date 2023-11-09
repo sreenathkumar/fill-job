@@ -1,5 +1,5 @@
-import { Button, SvgIcon, styled } from '@mui/joy'
-import { Avatar, Box, TextField, Grid, Paper, Chip, Divider, FormControlLabel, Checkbox } from '@mui/material'
+import { Button, } from '@mui/joy'
+import { Box, Grid, Paper, Chip, FormControlLabel, Checkbox } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { isLoggedIn } from '../popup/App';
 import { formStructure } from '../../utils/formStructure';
@@ -37,6 +37,9 @@ function EditJobProfile() {
          // Handle the error as needed
       }
    };
+   if (profileData?.same_as_present) {
+      setSamePermanentAddress(true);
+   }
    // Use useEffect to call getData when needed
    useEffect(() => {
       getData();
@@ -55,7 +58,7 @@ function EditJobProfile() {
       //updating job profile data
       try {
          user?.functions.callFunction('updateJobData', updatedData).then((res) => {
-            if (res.type === 'success') {
+            if (res.status === 'success') {
                setProfileData({ ...res.jobData });
                alert('Data updated successfully');
             } else {
