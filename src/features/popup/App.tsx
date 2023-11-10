@@ -4,7 +4,7 @@ import SignIn from '../../components/SignIn';
 import SignUp from '../../components/SignUp';
 import { app } from '../../api/auth';
 import Home from './components/Home';
-import { signal } from '@preact/signals-react';
+import { effect, signal } from '@preact/signals-react';
 import EditGeneralProfile from './components/EditGeneralProfile';
 
 
@@ -41,6 +41,7 @@ export default function App() {
    if (localProfileData !== null) {
       generalData = JSON.parse(localProfileData); // parse profile data to JSON object
    }
+
    //change view on appView change
    useEffect(() => {
       if (isLoggedIn.value) {
@@ -59,7 +60,7 @@ export default function App() {
          }
       }
 
-   }, [appView.value])
+   }, [appView.value, isLoggedIn.value])
    console.log(appView.value);
 
    return (
