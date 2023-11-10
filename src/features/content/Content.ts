@@ -25,7 +25,7 @@ const fillUpForm = (data: jobProfileDataType) => {
             var event = new Event('change');
             ele.dispatchEvent(event);
          } else if (ele.type === 'checkbox') {
-            ele.click();
+            if (value) { ele.click(); }
          }
          else {
             ele.value = value;
