@@ -25,7 +25,7 @@ export default function SignIn() {
       loginUser(email, password).then((res) => {
          if (res.status === 'success') {
             alert(res.message)
-            appView.value = 'home' //showing home screen of the app.
+            redirectTo('home') //showing home screen of the app.
          } else {
             alert(res.message)
          }

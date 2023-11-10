@@ -2,6 +2,7 @@ import { Checkbox, FormControlLabel } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { formStructure } from '../../../utils/formStructure'
 import FormGroupItem from '../../../components/ui/FormGroupItem'
+import { jobProfileFormInfo } from '../../../utils/formInfo'
 
 function DependentFields({ name, id, check, data }: { name: string, id: string, check: boolean, data: jobProfileDataType | undefined }) {
    const [isChecked, setIsChecked] = useState(check)
@@ -18,7 +19,7 @@ function DependentFields({ name, id, check, data }: { name: string, id: string, 
                !isChecked &&
                formStructure.permanent_address_field.map((item, itIndex) => {
                   return (
-                     <FormGroupItem field={item} key={itIndex} value={data ? data[item.id] : ''} />
+                     <FormGroupItem field={item} key={itIndex} value={data ? data[item.id] : ''} fieldInfo={jobProfileFormInfo[item.id]} />
                   )
                })
             }
@@ -32,7 +33,7 @@ function DependentFields({ name, id, check, data }: { name: string, id: string, 
                {
                   isChecked && formStructure.masters_field.map((item, itIndex) => {
                      return (
-                        <FormGroupItem field={item} key={itIndex} value={data ? data[item.id] : ''} />
+                        <FormGroupItem field={item} key={itIndex} value={data ? data[item.id] : ''} fieldInfo={jobProfileFormInfo[item.id]} />
                      )
                   })
                }

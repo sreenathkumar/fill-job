@@ -3,13 +3,15 @@ import { ThemeProvider } from '@emotion/react'
 import { Grid } from '@mui/material'
 import { theme } from '../../../utils/theme'
 import ProfileCard from './ProfileCard'
-import { appView, isLoggedIn, redirectTo } from '../App'
+import { isLoggedIn, redirectTo } from '../App'
 import { app, logoutUser } from '../../../api/auth'
 
 export default function Home({ profileData }: { profileData: generalProfileDataType }) {
 
    const handleEditGeneralProfile = () => {
-      appView.value = 'editGeneralProfile'
+      console.log('edit general profile');
+
+      redirectTo('editGeneralProfile')
    }
 
    const handleUpdateJobProfile = () => {

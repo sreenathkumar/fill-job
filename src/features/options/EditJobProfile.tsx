@@ -1,5 +1,5 @@
 import { Button, } from '@mui/joy'
-import { Box, Grid, Paper, Chip, FormControlLabel, Checkbox } from '@mui/material'
+import { Box, Grid, Paper, Chip } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { isLoggedIn } from '../popup/App';
 import { formStructure } from '../../utils/formStructure';
@@ -13,7 +13,6 @@ import DependentFields from './ui/DependentFields';
 
 function EditJobProfile() {
    const [profileData, setProfileData] = useState<jobProfileDataType | undefined>();
-   const [masApplicable, setMasApplicable] = useState(false);
    const user = app.currentUser;//chekcing for user
    if (user) {
       const token = localStorage.getItem('token'); // get token from local storage
@@ -114,23 +113,6 @@ function EditJobProfile() {
                <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem', flexGrow: '1', justifyContent: 'space-between', alignItems: 'center', }}>
 
                   <DependentFields name='same_as_present' id='same_as_present' check={profileData?.same_as_present === 'true' ? true : false} data={profileData} />
-
-                  {/* {profileData?.same_as_present === 'on' ?
-                     formStructure.permanent_address_field.map((item, itIndex) => {
-                        let elementOfPresent = document.getElementById(`${item.id.replace('permanent', 'present')}`) as HTMLInputElement;
-
-                        return (
-                           <FormGroupItem field={item} key={itIndex} value={elementOfPresent?.value || ''} fieldInfo={jobProfileFormInfo[item.id]} />
-                        )
-                     })
-                     :
-                     formStructure.permanent_address_field.map((item, itIndex) => {
-                        return (
-                           <FormGroupItem field={item} key={itIndex} value={profileData ? profileData[item.id] : ''} fieldInfo={jobProfileFormInfo[item.id]} />
-                        )
-                     })
-
-                  } */}
                </Box>
             </Grid>
          </Grid>
@@ -177,14 +159,6 @@ function EditJobProfile() {
                <Chip label={'Masters/Equivalent'} variant="outlined" sx={{ marginBottom: '2.5rem' }} />
                <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem', flexGrow: '1', justifyContent: 'space-between', alignItems: 'center', }}>
                   <DependentFields name='if_applicable_mas' id='if_applicable_mas' check={profileData?.if_applicable_mas === 'true' ? true : false} data={profileData} />
-                  {/* <FormControlLabel control={<Checkbox checked={masApplicable} id='if_applicable_mas' name='if_applicable_mas' onChange={() => setMasApplicable(!masApplicable)} />} sx={{ alignSelf: 'flex-start' }} label="If applicable" />
-                  {
-                     masApplicable && formStructure.masters_field.map((item, itIndex) => {
-                        return (
-                           <FormGroupItem field={item} key={itIndex} value={profileData ? profileData[item.id] : ''} fieldInfo={jobProfileFormInfo[item.id]} />
-                        )
-                     })
-                  } */}
                </Box>
             </Grid>
          </Grid>
