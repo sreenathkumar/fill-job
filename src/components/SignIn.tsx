@@ -1,3 +1,4 @@
+import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
@@ -6,9 +7,8 @@ import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { ThemeProvider } from '@mui/material/styles';
-import * as React from 'react';
 import { loginUser } from '../api/auth';
-import { appView, redirectTo } from '../features/popup/App';
+import { redirectTo } from '../features/popup/App';
 import { theme } from '../utils/theme';
 
 
@@ -91,12 +91,12 @@ export default function SignIn() {
                      </Button>
                      <Grid container>
                         <Grid item xs>
-                           <Link href="#" variant="body2">
+                           <Link onClick={() => redirectTo('resetPassword')} sx={{ cursor: 'pointer' }} variant="body2">
                               Forgot password?
                            </Link>
                         </Grid>
                         <Grid item>
-                           <Link onClick={() => redirectTo('signup')} variant="body2">
+                           <Link onClick={() => redirectTo('signup')} sx={{ cursor: 'pointer' }} variant="body2">
                               {"Don't have an account? Sign Up"}
                            </Link>
                         </Grid>
