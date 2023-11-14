@@ -4,8 +4,9 @@ import SignIn from '../../components/SignIn';
 import SignUp from '../../components/SignUp';
 import { app } from '../../api/auth';
 import Home from './components/Home';
-import { effect, signal } from '@preact/signals-react';
+import { signal } from '@preact/signals-react';
 import EditGeneralProfile from './components/EditGeneralProfile';
+import ResetPassword from '../reset password/ResetPassword';
 
 
 export const appView = signal('signin'); // Default screen of popup
@@ -53,10 +54,16 @@ export default function App() {
             setRenderContent(<Home profileData={generalData} />)
          }
       } else {
-         if (appView.value === 'signup') {
-            setRenderContent(<SignUp />)
-         } else {
-            setRenderContent(<SignIn />)
+         switch (appView.value) {
+            case 'signup':
+               setRenderContent(<SignUp />)
+               break;
+            case 'resetPassword':
+               setRenderContent(<ResetPassword />)
+               break;
+            default:
+               setRenderContent(<SignIn />)
+               break;
          }
       }
 

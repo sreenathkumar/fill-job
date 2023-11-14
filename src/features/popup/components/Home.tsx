@@ -9,8 +9,6 @@ import { app, logoutUser } from '../../../api/auth'
 export default function Home({ profileData }: { profileData: generalProfileDataType }) {
 
    const handleEditGeneralProfile = () => {
-      console.log('edit general profile');
-
       redirectTo('editGeneralProfile')
    }
 
