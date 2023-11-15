@@ -17,21 +17,22 @@ export default function SignUp() {
    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       const data = new FormData(event.currentTarget);
-      const email: string = data.get('email')!.toString();
-      const password: string = data.get('password')!.toString();
-      const firstName: string = data.get('firstName')!.toString();
-      const lastName: string = data.get('lastName')!.toString();
-      const receiveNews = data.get('receiveNews')?.toString();
-      const fullName: string = firstName + ' ' + lastName;
+      const { email, password } = Object.fromEntries(data);
+      //const email: string = data.get('email')!.toString();
+      //const password: string = data.get('password')!.toString();
+      // const firstName: string = data.get('firstName')!.toString();
+      // const lastName: string = data.get('lastName')!.toString();
+      // const receiveNews = data.get('receiveNews')?.toString();
+      // const fullName: string = firstName + ' ' + lastName;
 
-      const customData = {
-         fullName,
-         email,
-         receiveNews,
-      }
+      // const customData = {
+      //    fullName,
+      //    email,
+      //    receiveNews,
+      // }
 
       //registering new user
-      registerUser(email, password).then((res) => {
+      registerUser(email.toString(), password.toString()).then((res) => {
          if (res.status === 'success') {
             alert(res.message);
             appView.value = 'signin' //showing login screen after registering.
