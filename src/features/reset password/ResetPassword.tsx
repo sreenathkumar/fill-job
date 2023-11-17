@@ -1,14 +1,24 @@
 import { Box, Button, Grid, Paper, TextField, Typography, Link, ThemeProvider } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import { theme } from '../../utils/theme';
 import { redirectTo } from '../popup/App';
+import { app } from '../../api/auth';
 
 
 export default function ResetPassword() {
+   const [sendMailMessage, setSendMailMessage] = useState('')
    function handleResetPassword(event: React.FormEvent<HTMLFormElement>) {
       event.preventDefault();
       const data = new FormData(event.currentTarget);
-      console.log(Object.fromEntries(data));
+      const { email } = Object.fromEntries(data);
+      try {
+         app.emailPasswordAuth.sendResetPasswordEmail({ email: email.toString() }).then((res) => {
+            setSendMailMessage('Password reset link has been sent. Please check your email');
+         });
+      } catch (error) {
+         setSendMailMessage('Something went wrong. Please try again');
+      }
+
    }
    return (
       <ThemeProvider theme={theme}>
@@ -43,21 +53,16 @@ export default function ResetPassword() {
                         margin="normal"
                         required
                         fullWidth
-                        id="new_password"
-                        label="New Password"
-                        name="password"
-                        type="password"
+                        id="reset_email"
+                        label="Email Aaddress"
+                        name="email"
+                        type="email"
                         autoFocus
                      />
-                     <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="confirm_password"
-                        label="Conform Password"
-                        type="password"
-                        id="confirm_password"
-                     />
+                     {sendMailMessage !== '' &&
+                        <Typography component='p' fontSize={'12px'} color={'rgb(244, 67, 54)'}>
+                           {sendMailMessage}
+                        </Typography>}
                      <Button
                         type="submit"
                         fullWidth
