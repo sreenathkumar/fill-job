@@ -31,6 +31,10 @@ export default function SignUp() {
       //    receiveNews,
       // }
 
+      if (password.length < 6) {
+         alert('Password must be at least 6 characters long')
+         return;
+      }
       //registering new user
       registerUser(email.toString(), password.toString()).then((res) => {
          if (res.status === 'success') {
@@ -87,7 +91,7 @@ export default function SignUp() {
                               required
                               fullWidth
                               name="password"
-                              label="Password"
+                              label="Password (at least 6 characters)"
                               type="password"
                               id="password"
                               autoComplete="new-password"
