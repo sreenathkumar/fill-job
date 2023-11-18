@@ -47,6 +47,7 @@ export default function Home({ profileData }: { profileData: generalProfileDataT
          if (res.status === 'success') {
             isLoggedIn.value = false;
             redirectTo('signin');
+            localStorage.clear();
             //alert(res.message)
          } else {
             alert('Something went wrong, please try again')
