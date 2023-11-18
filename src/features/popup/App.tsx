@@ -24,7 +24,9 @@ export default function App() {
 
    if (user) {
       const token = localStorage.getItem('token'); // get token from local storage
-      if (token !== null) {
+      console.log(token);
+
+      if (token && token !== null) {
          const parserdToken = (JSON.parse(token)); // parse token
          if (parserdToken.expiresAt > Date.now()) { // check if token is valid
             //appView.value = 'home';
@@ -39,9 +41,10 @@ export default function App() {
    }
    const localProfileData = localStorage.getItem('profileData'); // get localstorage profile data from local storage
 
-   if (localProfileData !== null) {
+   if (localProfileData !== 'undefined' && localProfileData !== null) {
       generalData = JSON.parse(localProfileData); // parse profile data to JSON object
    }
+
 
    //change view on appView change
    useEffect(() => {
