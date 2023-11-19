@@ -13,7 +13,7 @@ function EditGeneralProfile({ profileData }: { profileData?: generalProfileDataT
    const [firstName, setFirstName] = useState<string>(profileData?.firstName || '');
    const [lastName, setLastName] = useState<string>(profileData?.lastName || '');
    const [bio, setBio] = useState<string>(profileData?.bio || '');
-   const [previewImage, setPreviewImage] = useState<string>(profileData?.img || '');
+   const [previewImage, setPreviewImage] = useState<string>(profileData?.img || '#');
    const [currentImage, setCurrentImage] = useState<File>();
 
    //handle image upload
@@ -23,28 +23,48 @@ function EditGeneralProfile({ profileData }: { profileData?: generalProfileDataT
       setPreviewImage(URL.createObjectURL(selectedFile?.[0]));
    }
 
-
    //handle form submit
    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
+      let updatedProfileData;
+
       const formData = new FormData(e.currentTarget);
       if (currentImage) {
          const convertedImg = await convertImage(currentImage);
          formData.append('img', convertedImg);
       }
       const data = Object.fromEntries(formData.entries());
-      const currentProfileData = JSON.parse(localStorage.getItem('profileData') || '{}');
-      const updatedProfileData = { ...currentProfileData, generalData: { ...currentProfileData.generalData, ...data } };
 
-      const res = await app.currentUser?.functions.callFunction('setProfile', data)
-      // optimistic local storage update
-      localStorage.setItem('profileData', JSON.stringify(updatedProfileData));
+      if (profileData) {
+         if (JSON.stringify(data) === JSON.stringify(profileData)) { //checking if the form data is same as the profile data
+            alert('No changes made');
+            return
+         } else {
+            updatedProfileData = { ...profileData, ...data }; //merging the profile data with the form data
+            console.log(updatedProfileData);
 
-      if (res.status !== 'success') {
-         localStorage.setItem('profileData', JSON.stringify(currentProfileData)); // revert local storage update if failed
-         alert('Something went wrong, please try again')
+            const res = await app.currentUser?.functions.callFunction('setProfile', updatedProfileData)
+            // optimistic local storage update
+            localStorage.setItem('profileData', JSON.stringify(updatedProfileData));
+
+            if (res.status !== 'success') {
+               localStorage.setItem('profileData', JSON.stringify(profileData)); // revert local storage update if failed
+               alert('Something went wrong, please try again')
+            } else {
+               alert('Profile updated successfully');
+            }
+         }
       } else {
-         alert('Profile updated successfully');
+         const res = await app.currentUser?.functions.callFunction('setProfile', data)
+         // optimistic local storage update
+         localStorage.setItem('profileData', JSON.stringify(data));
+
+         if (res.status !== 'success') {
+            localStorage.removeItem('profileData'); // revert local storage update if failed
+            alert('Something went wrong, please try again')
+         } else {
+            alert('Profile updated successfully');
+         }
       }
    }
 
