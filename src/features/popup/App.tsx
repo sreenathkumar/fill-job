@@ -24,8 +24,6 @@ export default function App() {
 
    if (user) {
       const token = localStorage.getItem('token'); // get token from local storage
-      console.log(token);
-
       if (token && token !== null) {
          const parserdToken = (JSON.parse(token)); // parse token
          if (parserdToken.expiresAt > Date.now()) { // check if token is valid
@@ -34,17 +32,17 @@ export default function App() {
          }
       }
    }
+
    if (!localStorage.profileData) {
       user?.functions.callFunction('getProfileData').then((res) => {
          localStorage.setItem('profileData', JSON.stringify(res.data));
       })
    }
-   const localProfileData = localStorage.getItem('profileData'); // get localstorage profile data from local storage
 
+   const localProfileData = localStorage.getItem('profileData'); // get localstorage profile data from local storage
    if (localProfileData !== 'undefined' && localProfileData !== null) {
       generalData = JSON.parse(localProfileData); // parse profile data to JSON object
    }
-
 
    //change view on appView change
    useEffect(() => {
@@ -52,9 +50,9 @@ export default function App() {
          if (appView.value === 'editGeneralProfile') {
             setRenderContent(<EditGeneralProfile profileData={generalData} />)
          } else if (appView.value === 'home') {
-            setRenderContent(<Home profileData={generalData} />)
+            setRenderContent(<Home />)
          } else {
-            setRenderContent(<Home profileData={generalData} />)
+            setRenderContent(<Home />)
          }
       } else {
          switch (appView.value) {
@@ -69,14 +67,11 @@ export default function App() {
                break;
          }
       }
-
    }, [appView.value, isLoggedIn.value])
-   console.log(appView.value);
 
    return (
       <>
          {renderContent}
       </>
-
    )
 }
