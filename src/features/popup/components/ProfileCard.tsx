@@ -3,7 +3,7 @@ import React from 'react'
 import userAvatar from '../../../static/images/icon128.png'
 
 
-export default function ProfileCard({ profile, actions, data }: { profile: string, actions: btnType[], data: generalProfileDataType }) {
+export default function ProfileCard({ profile, actions, data }: { profile: string, actions: btnType[], data?: generalProfileDataType }) {
    const { firstName, lastName, img, bio, real_name } = data || {};
    return (
       <Grid item xs={12} sm={8} md={5} borderRadius={'10px'} elevation={3} component={Paper} square>
