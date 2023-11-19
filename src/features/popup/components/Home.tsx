@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ThemeProvider } from '@emotion/react'
 import { Grid } from '@mui/material'
 import { theme } from '../../../utils/theme'
@@ -6,16 +6,35 @@ import ProfileCard from './ProfileCard'
 import { isLoggedIn, redirectTo } from '../App'
 import { app, logoutUser } from '../../../api/auth'
 
-export default function Home({ profileData }: { profileData: generalProfileDataType }) {
+export default function Home() {
+   const [profileData, setProfileData] = useState();
+   const localProfileData = localStorage.getItem('profileData'); // get localstorage profile data from local storage
 
+   if (!profileData) {
+      if (!localProfileData || localProfileData === 'null') {
+         app.currentUser?.functions.callFunction('getProfileData').then((res) => {
+            console.log(res);
+            if (res.status === 'success') {
+               setProfileData(res.data)
+               localStorage.setItem('profileData', JSON.stringify(res.data));
+            } else {
+               return
+            }
+         })
+      } else {
+         setProfileData(JSON.parse(localStorage.profileData));
+      }
+   }
+
+   //handle edit general profile
    const handleEditGeneralProfile = () => {
       redirectTo('editGeneralProfile')
    }
-
+   //handle update job profile
    const handleUpdateJobProfile = () => {
       chrome.tabs.create({ url: 'js/options.html' })
    }
-
+   //handle fill up form
    const handleFill = () => {
       app.currentUser?.functions.callFunction('getJobProfileData').then((res) => {
          if (res.jobData) {
@@ -41,13 +60,13 @@ export default function Home({ profileData }: { profileData: generalProfileDataT
          }
       })
    };
-
+   // handle logout
    const handleLogout = () => {
       logoutUser().then((res) => {
          if (res.status === 'success') {
             isLoggedIn.value = false;
             redirectTo('signin');
-            localStorage.clear();
+            localStorage.profileData = null;
             //alert(res.message)
          } else {
             alert('Something went wrong, please try again')
@@ -61,6 +80,6 @@ export default function Home({ profileData }: { profileData: generalProfileDataT
             <ProfileCard profile={'General Profile'} data={profileData} actions={[{ title: 'Edit info', task: handleEditGeneralProfile }, { title: 'Log Out', task: handleLogout }]} />
             <ProfileCard profile={'Job Profile'} data={profileData} actions={[{ title: 'Update', task: handleUpdateJobProfile }, { title: 'Fill up', task: handleFill }]} />
          </Grid>
-      </ThemeProvider>
+      </ThemeProvider >
    )
 }
