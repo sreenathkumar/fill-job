@@ -13,7 +13,6 @@ export default function Home() {
    if (!profileData) {
       if (!localProfileData || localProfileData === 'null') {
          app.currentUser?.functions.callFunction('getProfileData').then((res) => {
-            console.log(res);
             if (res.status === 'success') {
                setProfileData(res.data)
                localStorage.setItem('profileData', JSON.stringify(res.data));
@@ -22,7 +21,20 @@ export default function Home() {
             }
          })
       } else {
-         setProfileData(JSON.parse(localStorage.profileData));
+         let data = JSON.parse(localProfileData);
+         if (!data?.real_name) {
+            app.currentUser?.functions.callFunction('getProfileData').then((res) => {
+               if (res.status === 'success') {
+                  setProfileData(res.data)
+                  localStorage.setItem('profileData', JSON.stringify(res.data));
+               } else {
+                  return
+               }
+            })
+         } else {
+            setProfileData(JSON.parse(localStorage.profileData));
+         }
+
       }
    }
 
