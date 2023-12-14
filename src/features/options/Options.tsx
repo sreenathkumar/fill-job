@@ -4,7 +4,6 @@ import '../../assets/css/app.css';
 import EditJobProfile from './EditJobProfile';
 import './assets/css/options.css';
 
-
 const container = document.createElement('div');
 container.setAttribute('id', 'options-container');
 document.body.appendChild(container);

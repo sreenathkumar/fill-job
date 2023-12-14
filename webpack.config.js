@@ -45,11 +45,11 @@ module.exports =
       path: path.join(__dirname, "dist/js"),
       filename: '[name].js'
    },
-   optimization: {
-      splitChunks: {
-         chunks: 'all'
-      }
-   }
+   // optimization: {
+   //    splitChunks: {
+   //       chunks: 'all'
+   //    }
+   // }
 }
 function getHtmlPlugins(chunks) {
    return chunks.map(

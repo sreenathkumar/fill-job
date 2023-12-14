@@ -34,7 +34,6 @@ export default function Home() {
          } else {
             setProfileData(JSON.parse(localStorage.profileData));
          }
-
       }
    }
 
