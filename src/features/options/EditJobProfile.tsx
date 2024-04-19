@@ -11,6 +11,7 @@ import DependentFields from './ui/DependentFields';
 import styled from '@emotion/styled';
 import axios from 'axios';
 import { checkValidImage, makeBase64 } from '../../utils/utilitiesFn';
+import { toast } from 'react-toastify';
 
 const VisuallyHiddenInput = styled('input')`
   clip: rect(0 0 0 0);
@@ -47,20 +48,23 @@ function EditJobProfile() {
    const getData = async () => {
       try {
          const res = await app.currentUser?.functions.callFunction('getJobProfileData');
-         const { data } = await axios.get(`http://localhost:4000/api/photos`, { params: { id: user?.id } });
-         console.log(data);
          if (res.jobData) {
             setProfileData({ ...res.jobData });
          } else {
             console.log("No jobData in the response");
          }
+      } catch (error) {
+         console.error("Error fetching job profile data:", error);
+         // Handle the error as needed
+      }
+      try {
+         const { data } = await axios.get(`http://localhost:4000/api/photos`, { params: { id: user?.id } });
          if (data) {
             setPreviewProPhoto(makeBase64(data.photo));
             setPreviewProSignature(makeBase64(data.signature));
          }
       } catch (error) {
-         console.error("Error fetching job profile data:", error);
-         // Handle the error as needed
+         console.log(error)
       }
    };
 
@@ -81,15 +85,17 @@ function EditJobProfile() {
       if (profileData) {
          updatedData = { ...profileData, ...updatedData };
       }
-
+      const updateToast = toast.loading('Updating data...', { autoClose: false });
       //updating job profile data
       try {
          user?.functions.callFunction('updateJobData', updatedData).then((res) => {
             if (res.status === 'success') {
                setProfileData({ ...res.jobData });
-               alert('Data updated successfully');
+               //alert('Data updated successfully');
+               toast.update(updateToast, { render: 'Data updated successfully', type: 'success', autoClose: 2000, isLoading: false })
             } else {
-               alert('Something went wrong. Please reload the page and try again');
+               //alert('Something went wrong. Please reload the page and try again');
+               toast.update(updateToast, { render: 'Something went wrong. Please reload the page and try again', type: 'error', autoClose: 2000, isLoading: false});
             }
          })
       } catch (error) {
