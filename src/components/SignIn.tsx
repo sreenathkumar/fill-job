@@ -10,6 +10,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import { loginUser } from '../api/auth';
 import { redirectTo } from '../features/popup/App';
 import { theme } from '../utils/theme';
+import { toast } from 'react-toastify';
 
 
 export default function SignIn() {
@@ -21,13 +22,16 @@ export default function SignIn() {
       const email: string = data.get('email')!.toString();
       const password: string = data.get('password')!.toString();
 
+      const loginTaost = toast.loading('Logging in...', { autoClose: false });
       //login the user
       loginUser(email, password).then((res) => {
          if (res.status === 'success') {
-            alert(res.message)
+            //alert(res.message)
+            toast.update(loginTaost, { render: 'Logged in successfully', type: 'success', autoClose: 2000, isLoading: false })
             redirectTo('home') //showing home screen of the app.
          } else {
-            alert(res.message)
+            //alert(res.message)
+            toast.update(loginTaost, { render: res.message, type: 'error', autoClose: 2000, isLoading: false })
          }
       });
    };

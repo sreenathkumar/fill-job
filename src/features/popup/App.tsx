@@ -7,6 +7,8 @@ import Home from './components/Home';
 import { signal } from '@preact/signals-react';
 import EditGeneralProfile from './components/EditGeneralProfile';
 import ResetPassword from '../reset password/ResetPassword';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export const appView = signal('signin'); // Default screen of popup
@@ -71,6 +73,7 @@ export default function App() {
 
    return (
       <>
+         <ToastContainer position='top-right' />
          {renderContent}
       </>
    )
