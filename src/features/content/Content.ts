@@ -1,10 +1,28 @@
 import { setDynamicData } from "../../utils/utilitiesFn";
 
+//collect the html from the dom
+const elements = document.querySelectorAll('.form-group input[id]');
+const html = Array.from(elements).map((ele) => {
+   return ele.outerHTML;
+}
+).join('\n')
+
+// ==================================================================
+// Do the form action after receiving click event from the popup
+// ==================================================================
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
    fillUpForm(request.data);
    sendResponse({ status: "success", message: "Form filled up successfully" });
+   //send the html to the background script
+   chrome.runtime.sendMessage({ from: 'content', html: html, userId: '12345' }, (response) => {
+      console.log('Message from background script', response);
+      //fill up the form with the data come from background script
+   });
 });
 
+// ==================================================================
+// Fill up the form with the data from the background script
+// ==================================================================
 const fillUpForm = (data: jobProfileDataType) => {
 
    for (const [key, value] of Object.entries(data)) {
