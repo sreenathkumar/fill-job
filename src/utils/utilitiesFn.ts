@@ -31,8 +31,9 @@ export const checkValidImage = async (file: File, maxWidth: number, maxHeight: n
   if (file.size > 1 * 1024 * 1024) {
     return { status: 'failed', message: 'Image size should be less than 1 MB' };
   }
-  //
+  //checking image dimensions if it is in correct size
   const isValidImageDimensions = await checkImageDimensions(file, maxWidth, maxHeight);
+  
   return isValidImageDimensions ? { status: 'success', message: 'Image is valid' } : { status: 'failed', message: `Image dimensions should be ${maxWidth}x${maxHeight}` };
 }
 
@@ -40,6 +41,7 @@ const checkImageDimensions = (file: File, maxWidth: number, maxHeight: number) =
   return new Promise((resolve, reject) => {
     const img = new Image();
     img.src = URL.createObjectURL(file);
+    
     try {
       img.onload = function () {
         event?.preventDefault();
