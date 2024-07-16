@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useState } from "react";
 import SignIn from '../../components/SignIn';
-import SignUp from '../../components/SignUp';
+import SignUp from '../../components/Signup';
 import { app } from '../../api/auth';
 import Home from './components/Home';
 import { signal } from '@preact/signals-react';
