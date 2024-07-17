@@ -52,9 +52,9 @@ export default function App() {
          if (appView.value === 'editGeneralProfile') {
             setRenderContent(<EditGeneralProfile profileData={generalData} />)
          } else if (appView.value === 'home') {
-            setRenderContent(<Home />)
+            setRenderContent(<Home email={user?.profile.email} />)
          } else {
-            setRenderContent(<Home />)
+            setRenderContent(<Home email= {user?.profile.email} />)
          }
       } else {
          switch (appView.value) {
