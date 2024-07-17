@@ -1,8 +1,6 @@
 import { Paper } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
@@ -13,24 +11,11 @@ import { registerUser } from '../api/auth';
 import { appView, redirectTo } from '../features/popup/App';
 import { theme } from '../utils/theme';
 
-export default function SignUp() {
+export default function Signup() {
    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       const data = new FormData(event.currentTarget);
       const { email, password } = Object.fromEntries(data);
-      //const email: string = data.get('email')!.toString();
-      //const password: string = data.get('password')!.toString();
-      // const firstName: string = data.get('firstName')!.toString();
-      // const lastName: string = data.get('lastName')!.toString();
-      // const receiveNews = data.get('receiveNews')?.toString();
-      // const fullName: string = firstName + ' ' + lastName;
-
-      // const customData = {
-      //    fullName,
-      //    email,
-      //    receiveNews,
-      // }
-
       if (password.length < 6) {
          alert('Password must be at least 6 characters long')
          return;
