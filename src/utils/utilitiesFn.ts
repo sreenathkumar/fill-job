@@ -33,7 +33,7 @@ export const checkValidImage = async (file: File, maxWidth: number, maxHeight: n
   }
   //checking image dimensions if it is in correct size
   const isValidImageDimensions = await checkImageDimensions(file, maxWidth, maxHeight);
-  
+
   return isValidImageDimensions ? { status: 'success', message: 'Image is valid' } : { status: 'failed', message: `Image dimensions should be ${maxWidth}x${maxHeight}` };
 }
 
@@ -41,7 +41,7 @@ const checkImageDimensions = (file: File, maxWidth: number, maxHeight: number) =
   return new Promise((resolve, reject) => {
     const img = new Image();
     img.src = URL.createObjectURL(file);
-    
+
     try {
       img.onload = function () {
         event?.preventDefault();
@@ -56,4 +56,21 @@ const checkImageDimensions = (file: File, maxWidth: number, maxHeight: number) =
       reject(error);
     }
   })
+}
+
+// Helper function to generate prefix based on fieldset legend
+export function getPrefix(legendText: string) {
+  if (legendText.includes('SSC')) {
+    return "SSC "
+  }
+  if (legendText.includes('HSC')) {
+    return "HSC "
+  }
+  if (legendText.includes('Graduation')) {
+    return "Graduation "
+  }
+  if (legendText.includes('Masters')) {
+    return "Masters"
+  }
+  return ''
 }

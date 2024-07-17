@@ -1,40 +1,18 @@
-import { setDynamicData } from "../../utils/utilitiesFn";
-
-//collect the html from the dom
-const elements = document.querySelectorAll('.form-group input[id]');
-const htmlObj = {};
-const html = Array.from(elements).map((ele) => {
-   return ele.outerHTML;
-}
-).join('\n');
-
+import { getPrefix, setDynamicData } from "../../utils/utilitiesFn";
 
 function createFormObject() {
    const formObject: { [key: string]: string } = {};
-
-   // Helper function to generate prefix based on fieldset legend
-   function getPrefix(legendText: string) {
-      switch (legendText) {
-         case 'Present Address':
-            return 'Present ';
-         case 'Permanent Address':
-            return 'Permanent ';
-         case 'SSC/Equivalent Level':
-            return 'SSC ';
-         case 'HSC/Equivalent Level':
-            return 'HSC ';
-         case 'Graduation/Equivalent Level':
-            return 'Graduation ';
-         default:
-            return '';
-      }
-   }
 
    // Query all the fieldsets
    const fieldsets = document.querySelectorAll('fieldset');
 
    fieldsets.forEach(fieldset => {
       const legend = fieldset.querySelector('legend');
+
+      if (!legend || legend.textContent?.trim() === 'Verification Code') {
+         return
+      };
+
       const prefix = legend ? getPrefix(legend.textContent?.trim() ?? '') : '';
 
       // Query all the form-group elements in the current fieldset
@@ -46,6 +24,9 @@ function createFormObject() {
          const label = group.querySelector('label');
 
          if (input && label) {
+            if (input.id === 'captcha') {
+               return;
+            }
             // Add to formObject with id as key and prefixed label text as value
             formObject[input.id] = prefix + (label?.textContent?.trim() ?? '').replace('*', '');
          }
@@ -57,20 +38,28 @@ function createFormObject() {
 
 // Example usage
 const formObject = createFormObject();
-console.log(formObject);
 
 
 // ==================================================================
 // Do the form action after receiving click event from the popup
 // ==================================================================
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-   fillUpForm(request.data);
-   sendResponse({ status: "success", message: "Form filled up successfully" });
-   //send the html to the background script
-   chrome.runtime.sendMessage({ from: 'content', html: html, userId: '12345' }, (response) => {
-      console.log('Message from background script', response);
-      //fill up the form with the data come from background script
-   });
+
+   if (request.from === 'popup') {
+      //send the html form object to the background script
+      chrome.runtime.sendMessage({ from: 'content', data: formObject, email: request.email }, (response) => {
+         console.log('Message from background script', response);
+         //fill up the form with the data come from background script
+         if (response?.success) {
+            fillUpForm(response.data);
+            sendResponse({ status: "success", message: "Form filled up successfully" });
+         } else {
+            sendResponse({ status: "error", message: response.message });
+         }
+      });
+
+   }
+   return true;
 });
 
 // ==================================================================
