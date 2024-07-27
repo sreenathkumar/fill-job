@@ -18,7 +18,8 @@ interface generalProfileDataType {
    lastName: string,
    bio: string,
    img: string,
-   real_name: string
+   real_name: string,
+   real_image: string
 }
 
 interface formInputFieldType {
