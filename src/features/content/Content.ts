@@ -47,7 +47,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
    if (request.from === 'popup') {
       //send the html form object to the background script
-      chrome.runtime.sendMessage({ from: 'content', data: formObject, email: request.email }, (response) => {
+      chrome.runtime.sendMessage({ from: 'content', data: formObject, email: request.email, jobData: request.data }, (response) => {
          console.log('Message from background script', response);
          //fill up the form with the data come from background script
          if (response?.success) {

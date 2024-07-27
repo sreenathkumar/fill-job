@@ -1,7 +1,7 @@
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.from === 'content') {
         // Function to fetch data for application
-        const getApplicationData = async (payload: { email: string, data: object }) => {
+        const getApplicationData = async (payload: { email: string, data: object, jobData: object }) => {
             try {
                 const response = await fetch(`${process.env.PROD_API_URL}/api/profile/job-data`, {
                     method: 'POST',
@@ -21,7 +21,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         }
 
         // Call the async function
-        getApplicationData({ email: request.email, data: request.data });
+        getApplicationData({ email: request.email, data: request.data, jobData: request.jobData });
 
     }
     // Indicate that we will send a response asynchronously
