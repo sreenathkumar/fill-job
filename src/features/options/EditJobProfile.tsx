@@ -1,5 +1,5 @@
 import { Button } from "@mui/joy";
-import { Box, Grid, Paper, Chip, SvgIcon, Avatar, Alert } from "@mui/material";
+import { Box, Grid, Paper, Chip, SvgIcon, Avatar, Alert, Link } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { isLoggedIn } from "../popup/App";
 import { formStructure } from "../../utils/formStructure";
@@ -12,6 +12,7 @@ import styled from "@emotion/styled";
 import axios from "axios";
 import { checkValidImage, makeBase64 } from "../../utils/utilitiesFn";
 import { toast } from "react-toastify";
+import DownloadBtn from "./DownloadBtn";
 
 const VisuallyHiddenInput = styled("input")`
   clip: rect(0 0 0 0);
@@ -160,11 +161,11 @@ function EditJobProfile() {
     const fileForm = document.getElementById("file-form");
     if (textForm && fileForm) {
       handleFileSubmit({
-        preventDefault: () => {},
+        preventDefault: () => { },
         currentTarget: fileForm,
       } as React.FormEvent<HTMLFormElement>);
       handleTextSubmit({
-        preventDefault: () => {},
+        preventDefault: () => { },
         currentTarget: textForm,
       } as React.FormEvent<HTMLFormElement>);
     }
@@ -514,6 +515,7 @@ function EditJobProfile() {
                 onChange={handleFileUpload}
               />
             </Button>
+            <DownloadBtn image={previewProPhoto || ""} item_name="photo" />
           </Box>
           <Box sx={{ display: "flex", gap: "1rem" }} width={"100%"}>
             <Avatar variant="square" sx={{ width: "300px", height: "80px" }}>
@@ -557,6 +559,7 @@ function EditJobProfile() {
                 onChange={handleFileUpload}
               />
             </Button>
+            <DownloadBtn image={previewProSignature || ""} item_name="signature" />
           </Box>
         </Grid>
       </Box>
