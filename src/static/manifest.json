@@ -10,12 +10,12 @@
   },
   "permissions": ["scripting", "activeTab", "tabs"],
   "options_ui": {
-    "page": "js/options.html",
+    "page": "options.html",
     "open_in_tab": true
   },
   "host_permissions": ["<all_urls>"],
   "action": {
-    "default_popup": "js/popup.html"
+    "default_popup": "popup.html"
   },
   "content_scripts": [
     {

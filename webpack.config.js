@@ -1,11 +1,9 @@
 const path = require("path");
-const copyWebpackPlugin = require("copy-webpack-plugin");
 const HTMLPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 
 module.exports = {
-  mode: "development",
-  devtool: "cheap-module-source-map",
   entry: {
     popup: path.resolve("src/features/popup/Popup.tsx"),
     options: path.resolve("src/features/options/Options.tsx"),
@@ -29,7 +27,7 @@ module.exports = {
     extensions: [".tsx", ".ts", ".js"],
   },
   plugins: [
-    new copyWebpackPlugin({
+    new CopyWebpackPlugin({
       patterns: [
         { from: path.resolve("src/static/"), to: path.resolve("dist") },
       ],
@@ -38,15 +36,11 @@ module.exports = {
     new Dotenv(),
   ],
   output: {
-    path: path.join(__dirname, "dist/js"),
-    filename: "[name].js",
+    path: path.join(__dirname, "dist"),
+    filename: "js/[name].js",
   },
-  // optimization: {
-  //    splitChunks: {
-  //       chunks: 'all'
-  //    }
-  // }
 };
+
 function getHtmlPlugins(chunks) {
   return chunks.map(
     (chunk) =>
