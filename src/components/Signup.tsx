@@ -23,7 +23,7 @@ export default function Signup() {
       //registering new user
       registerUser(email.toString(), password.toString()).then((res) => {
          if (res.status === 'success') {
-            alert(res.message);
+            alert('An email is sent to your email address. Please verify your email address to login.');
             appView.value = 'signin' //showing login screen after registering.
          } else {
             alert(res.message)
