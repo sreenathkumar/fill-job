@@ -8,51 +8,51 @@ import { app, logoutUser } from '../../../api/auth'
 import { toast } from 'react-toastify'
 import { sendMessageForData } from '../../../utils/sendMessageForData'
 
-export default function Home({ email }: { email: string|undefined }) {
+export default function Home({ email }: { email: string | undefined }) {
    const [profileData, setProfileData] = useState();
    const localProfileData = localStorage.getItem('profileData'); // get localstorage profile data from local storage
-   
+
 
    useEffect(() => {
       const fetchData = async () => {
-          if (!profileData) {
-              if (!localProfileData || localProfileData === 'null') {
-                  
-                  try {
-                      const res = await app.currentUser?.functions.callFunction('getProfileData');
-                      if (res.status === 'success') {
-                          setProfileData(res.data);
-                          localStorage.setItem('profileData', JSON.stringify(res.data));
-                         
-                      } else {
-                          return
-                      }
-                  } catch (error) {
-                      console.error(error);
-                      alert(error.message)
-                  }
-              } else {
-                  let data = JSON.parse(localProfileData);
-                  if (!data?.real_name) {
-                      try {
-                          const res = await app.currentUser?.functions.callFunction('getProfileData');
-                          if (res.status === 'success') {
-                              setProfileData(res.data);
-                              localStorage.setItem('profileData', JSON.stringify(res.data));
-                          }
-                      } catch (error) {
-                          console.error(error);
-                          alert(error.message)
-                      }
+         if (!profileData) {
+            if (!localProfileData || localProfileData === 'null') {
+
+               try {
+                  const res = await app.currentUser?.functions.callFunction('getProfileData');
+                  if (res.status === 'success') {
+                     setProfileData(res.data);
+                     localStorage.setItem('profileData', JSON.stringify(res.data));
+
                   } else {
-                      setProfileData(JSON.parse(localStorage.profileData));
+                     return
                   }
-              }
-          }
+               } catch (error) {
+                  console.error(error);
+                  alert(error.message)
+               }
+            } else {
+               let data = JSON.parse(localProfileData);
+               if (!data?.real_name) {
+                  try {
+                     const res = await app.currentUser?.functions.callFunction('getProfileData');
+                     if (res.status === 'success') {
+                        setProfileData(res.data);
+                        localStorage.setItem('profileData', JSON.stringify(res.data));
+                     }
+                  } catch (error) {
+                     console.error(error);
+                     alert(error.message)
+                  }
+               } else {
+                  setProfileData(JSON.parse(localStorage.profileData));
+               }
+            }
+         }
       };
-      
+
       fetchData();
-  }, [profileData, localProfileData]);
+   }, [profileData, localProfileData]);
 
 
    //handle edit general profile
@@ -66,13 +66,24 @@ export default function Home({ email }: { email: string|undefined }) {
    //handle fill up form
    const handleFill = () => {
       const fillDataToast = toast.loading('Filling job profile data...', { autoClose: false });
-      app.currentUser?.functions.callFunction('getJobProfileData').then((res) => {
-         if (res.jobData) {
-            sendMessageForData({ jobData: res.jobData, email: email }, fillDataToast);
+      chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+         const domain = tabs[0]?.url?.split('/')[2];
+         if (domain?.includes('teletalk.com.bd')) {
+
+            app.currentUser?.functions.callFunction('getJobProfileData').then((res) => {
+               if (res.jobData) {
+                  sendMessageForData({ jobData: res.jobData, email: email }, fillDataToast);
+               } else {
+                  alert('Please update your job profile first')
+               }
+            })
          } else {
-            alert('Please update your job profile first')
+            toast.update(fillDataToast, { type: 'error', render: 'The website is not supported', isLoading: false, autoClose: 2000 });
+            return;
          }
+
       })
+
    };
    // handle logout
    const handleLogout = () => {
